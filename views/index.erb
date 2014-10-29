@@ -67,7 +67,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="movies">
-      <div class="page_head">
+      <div class="content_head">
         <p>Movies</p>
       </div>
       {{#each model}}
@@ -90,7 +90,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="studios">
-	  <div class="page_head">
+      <div class="content_head">
         <p>Studios</p>
       </div>
       {{#each model}}
@@ -99,7 +99,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="actors">
-	  <div class="page_head">
+      <div class="content_head">
         <p>Actors</p>
       </div>
       {{#each model}}
@@ -107,8 +107,8 @@
       {{/each}}
     </script>
 	
-	<script type="text/x-handlebars" data-template-name="directors">
-	  <div class="page_head">
+    <script type="text/x-handlebars" data-template-name="directors">
+      <div class="content_head">
         <p>Directors</p>
       </div>
       {{#each model}}
@@ -117,29 +117,33 @@
     </script>
 
     <script type="text/x-handlebars" id="components/movie-container">
+      <h3>{{model.Title}}</h3>
       <div class="movie_container">
-        <h3>{{model.Title}}</h3>
-        <p>Duration: {{model.Duration}}</p>
-		<p>Agerating: {{model.AgeRating}}</p>
-		<p>Genre: {{model.Genre}}</p>
-		<p>Mood: {{model.Mood}}</p>
-		<p>Releasedate: {{model.ReleaseDate}}</p>
-		<p>Rating: {{model.AvgRating}}</p>
-		<p>Director: {{model.D_PersID}}</p>
-		<p>Studio: {{studioName}}</p>
+        <table>
+          <tr>
+            <td>Duration: {{model.Duration}}</td>
+    		    <td>Agerating: {{model.AgeRating}}</td>
+        		<td>Genre: {{model.Genre}}</td>
+        		<td>Mood: {{model.Mood}}</td>
+        		<td>Releasedate: {{model.ReleaseDate}}</td>
+        		<td>Rating: {{model.AvgRating}}</td>
+        		<td>Director: {{model.D_PersID}}</td>
+        		<td>Studio: {{studioName}}</td>
+          </tr>
+        </table>
       </div>
     </script>
 
     <script type="text/x-handlebars" id="components/actor-container">
       <h3>{{model.Firstname}} {{model.Surname}}:</h3>
       <p>Place of birth: {{model.PlaceOfBirth}}</p>
-	  <p>Birthdate: {{model.Birthdate}}</p>
-	  <p>Gender: {{model.Gender}}</p>
+  	  <p>Birthdate: {{model.Birthdate}}</p>
+  	  <p>Gender: {{model.Gender}}</p>
     </script>
 	
 	<script type="text/x-handlebars" id="components/director-container">
     <h3>{{model.Firstname}} {{model.Surname}}:</h3>
-	    <div class="director_container">
+    <div class="director_container">
 		  <p>Place of birth: {{model.PlaceOfBirth}}</p>
 		  <p>Birthdate: {{model.Birthdate}}</p>
 		  <p>Gender: {{model.Gender}}</p>
