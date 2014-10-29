@@ -1,0 +1,154 @@
+<!doctype HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SpeiFrei</title>
+    <script type="text/javascript" src="libs/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="libs/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="libs/ember.js"></script>
+    <script src="http://builds.emberjs.com/beta/ember-data.js"></script>
+
+    <link rel="stylesheet/less" type="text/css" href="stylesheets/styles.less" />
+    <script type="text/javascript" src="libs/less.js"></script>
+
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/router.js"></script>
+
+    <!-- Routes -->
+    <script type="text/javascript" src="js/Routes/ApplicationRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/SigninRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
+    <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
+    <script type="text/javascript" src="js/Controllers/SignupController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
+    <script type="text/javascript" src="js/Controllers/ActorsController.js"></script>
+    <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
+	<script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
+
+    <!-- Components -->
+    <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
+  </head>
+  <body>
+    <script type="text/x-handlebars" data-template-name="application">
+      <div class="header">
+        <div class="navbar">
+          <div class="navbar_inner">
+            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button>P</button></div>
+            <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
+            <div class="navbar_option" {{action 'studios'}}>Studios</div>
+            <div class="navbar_option" {{action 'actors'}}>Actors</div>
+			<div class="navbar_option" {{action 'directors'}}>Directors</div>
+            <div class="navbar_option" {{action 'signin'}}>Account</div>
+          </div>
+        </div>
+      </div>
+      <div class="contentainer">
+        <div class="content">
+          <div class="content_inner">
+            {{outlet}}
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footer_inner">
+          <div class="footer_option">Share</div>
+          <div class="footer_option">Connect</div>
+          <div class="footer_option">Sitemap</div>
+          <div class="footer_option">Contact</div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="movies">
+      <div class="page_head">
+        <p>Movies</p>
+      </div>
+      {{#each model}}
+        {{movie-container model=this}}
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="signin">
+      <div class="signin_container">
+        <p>Please Sign in</p>
+        {{input value=email placeholder="Email"}}
+        {{input value=password placeholder="Password"}}
+        <button {{action 'print'}}>signin</button>
+        <div><a href="#" {{action 'signup'}}>Signup</a></div>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="signup">
+      <p>This is the signup Route!</p>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="studios">
+	  <div class="page_head">
+        <p>Studios</p>
+      </div>
+      {{#each model}}
+        {{studio-container model=this}}
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="actors">
+	  <div class="page_head">
+        <p>Actors</p>
+      </div>
+      {{#each model}}
+        {{actor-container model=this}}
+      {{/each}}
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="directors">
+	  <div class="page_head">
+        <p>Directors</p>
+      </div>
+      {{#each model}}
+        {{director-container model=this}}
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" id="components/movie-container">
+      <div class="movie_container">
+        <h3>{{model.Title}}</h3>
+        <p>Duration: {{model.Duration}}</p>
+		<p>Agerating: {{model.AgeRating}}</p>
+		<p>Genre: {{model.Genre}}</p>
+		<p>Mood: {{model.Mood}}</p>
+		<p>Releasedate: {{model.ReleaseDate}}</p>
+		<p>Rating: {{model.AvgRating}}</p>
+		<p>Director: {{model.D_PersID}}</p>
+		<p>Studio: {{studioName}}</p>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="components/actor-container">
+      <h3>{{model.Firstname}} {{model.Surname}}:</h3>
+      <p>Place of birth: {{model.PlaceOfBirth}}</p>
+	  <p>Birthdate: {{model.Birthdate}}</p>
+	  <p>Gender: {{model.Gender}}</p>
+    </script>
+	
+	<script type="text/x-handlebars" id="components/director-container">
+    <h3>{{model.Firstname}} {{model.Surname}}:</h3>
+	    <div class="director_container">
+		  <p>Place of birth: {{model.PlaceOfBirth}}</p>
+		  <p>Birthdate: {{model.Birthdate}}</p>
+		  <p>Gender: {{model.Gender}}</p>
+		</div>
+    </script>
+
+    <script type="text/x-handlebars" id="components/studio-container">
+      <h3>{{model.Name}}:</h3>
+      <p>Headquarter: {{model.Headquarter}}</p>
+    </script>
+  </body>
+</html>
