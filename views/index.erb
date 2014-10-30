@@ -21,7 +21,8 @@
     <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
-	<script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -30,7 +31,8 @@
     <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
-	<script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
+    <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
 
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -44,7 +46,7 @@
             <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
-			<div class="navbar_option" {{action 'directors'}}>Directors</div>
+            <div class="navbar_option" {{action 'directors'}}>Directors</div>
             <div class="navbar_option" {{action 'signin'}}>Account</div>
           </div>
         </div>
@@ -69,6 +71,7 @@
     <script type="text/x-handlebars" data-template-name="movies">
       <div class="content_head">
         <p>Movies</p>
+        <a {{action 'createMovie'}}>Add</a>
       </div>
       {{#each model}}
         {{movie-container model=this}}
@@ -105,6 +108,22 @@
       {{#each model}}
         {{actor-container model=this}}
       {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="createMovie">
+      <div class="content_head">
+        <p>Create Movie</p>
+        {{input value=model.title placeholder="Title"}}
+        {{input value=model.releaseDate placeholder="Release Date"}}
+        {{input value=model.genre placeholder="Genre"}}
+        {{input value=model.mood placeholder="Mood"}}
+        {{input value=model.duration placeholder="Duration"}}
+        {{input value=model.ageRating placeholder="Age rating"}}
+        {{input value=model.directorFirstName placeholder="Director Firstname"}}
+        {{input value=model.directorSurName placeholder="Director Surname"}}
+        {{input value=model.studio placeholder="Studio"}}
+        <button {{action 'submit_movie'}}>submit</button>
+      </div>
     </script>
 	
     <script type="text/x-handlebars" data-template-name="directors">
