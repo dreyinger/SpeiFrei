@@ -13,26 +13,26 @@ get '/' do
   erb :index
 end
 
-post '/login.json' do
-	puts params
+# post '/login.json' do
+# 	puts params
 
-	sql = "select * from USER where Email = '#{params[:email]}'"
-	counter = 0
+# 	sql = "select * from USER where Email = '#{params[:email]}'"
+# 	counter = 0
 
-	results = client.query(sql, :as => :json)
-	puts results
-	results.map do |row|
-	  puts row
-	  counter += 1
-	end
-	if counter != 0
-		puts "yes"
-		return MultiJson.dump({:results => true})
-	else
-		puts "no"
-		return MultiJson.dump({:results => false})
-	end
-end
+# 	results = client.query(sql, :as => :json)
+# 	puts results
+# 	results.map do |row|
+# 	  puts row
+# 	  counter += 1
+# 	end
+# 	if counter != 0
+# 		puts "yes"
+# 		return MultiJson.dump({:results => true})
+# 	else
+# 		puts "no"
+# 		return MultiJson.dump({:results => false})
+# 	end
+# end
 
 get '/api/v1/movies' do
 	content_type :json
@@ -115,12 +115,18 @@ end
 get '/api/v1/director/:id' do
 	content_type :json
 	
-	sql = "select * from DIRECTOR where PersID = #{params[:id]}"
-	data = Array.new
+	sql = "select Firstname, Surname from DIRECTOR where PersID = #{params[:id]}"
+	data = Hash.new
+	
+	begin 
+		results = client.query(sql, :symbolize_keys => true)
+	rescue Exception => e  
+	  puts e.message  
+	  # puts e.backtrace.inspect  
+	end  
+	results = results.to_a
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	puts results.inspect
 
 	MultiJson.dump(data)
 end
@@ -162,8 +168,6 @@ post '/api/v1/movie' do
 
 	sql = "INSERT INTO MOVIE (Title, ReleaseDate, Genre, Mood, Duration, AgeRating, D_PersID, StudioID) VALUES ('#{data["title"]}', '#{data["releaseDate"]}', '#{data["genre"]}', '#{data["mood"]}', '#{data["duration"]}', '#{data["ageRating"]}', '#{data["D_PersID"]}', '#{data["StudioID"]}')"
 	post = client.query(sql)
-	puts post
-	# puts data
 end
 
 # post '/api/v1/movie' do
