@@ -20,6 +20,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		createMovie: function () {
 			this.transitionTo('createMovie');
+		},
+		createDirector: function () {
+			this.transitionTo('createDirector');
 		}
 	}
 });

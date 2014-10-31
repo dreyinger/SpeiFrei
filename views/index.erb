@@ -23,6 +23,7 @@
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -33,6 +34,7 @@
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
+	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
 
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -126,9 +128,22 @@
       </div>
     </script>
 	
+	<script type="text/x-handlebars" data-template-name="createDirector">
+      <div class="content_head">
+        <p>Create Director</p>
+        {{input value=model.firstName placeholder="Firstname"}}
+        {{input value=model.surName placeholder="Surname"}}
+		{{input value=model.placeOfBirth placeholder="Place of Birth"}}
+		{{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
+		{{input value=model.gender placeholder="Gender - m/w"}}
+        <button {{action 'submit_director'}}>submit</button>
+      </div>
+    </script>
+	
     <script type="text/x-handlebars" data-template-name="directors">
       <div class="content_head">
         <p>Directors</p>
+		<a {{action 'createDirector'}}>Add</a>
       </div>
       {{#each model}}
         {{director-container model=this}}
