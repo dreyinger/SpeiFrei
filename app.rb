@@ -144,7 +144,7 @@ get '/api/v1/movie/:id' do
 	MultiJson.dump(data)
 end
 
-post '/api/v1/movie' do
+post '/api/v1/createMovie' do
 	data = params
 	puts data
 	
@@ -253,125 +253,182 @@ post '/api/v1/movie' do
 
 end
 
-post '/api/v1/director' do
-	if params["firstName"]
-		if (params["firstName"].count " ") == 0 # no " " in surName
-			if params["surName"]
-				if (params["surName"].count " ") == 0 # no " " in surName
-					sql = "select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
-					results = client.query(sql)
-					if results.map.to_a[0] == nil # not in DB
-						if params["birthdate"].to_s != ""
-							birthdate = params["birthdate"]
-							if (birthdate =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) == 0
-								year = birthdate[0,4].to_i
-								month = birthdate[5,2].to_i
-								day = birthdate[8,2].to_i
-								if year < Date.today.strftime("%Y").to_i
-									if month <= 12
-										if day <= 31
-											if params["gender"]
-												if params["gender"] == "m" || params["gender"] == "w"
-													params["firstName"] = params["firstName"].capitalize
-													params["surName"] = params["surName"].capitalize
-													sql = "INSERT INTO DIRECTOR (Firstname, Surname, Gender) VALUES ('#{params["firstName"]}', '#{params["surName"]}', '#{params["gender"]}')"
-													client.query(sql)
-													if params["placeOfBirth"] || params["birthdate"]
-														sql ="select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
-														results = client.query(sql).map.to_a
-														persID = results[0]["PersID"]
-														if params["placeOfBirth"]
-															params["placeOfBirth"] = params["placeOfBirth"].capitalize
-															sql = "update DIRECTOR set PlaceOfBirth = '#{params["placeOfBirth"]}' where PersID = #{persID}"
-															client.query(sql)
-														end
-														if params["birthdate"]
-															sql = "update DIRECTOR set Birthdate = '#{params["birthdate"]}' where PersID = #{persID}"
-															client.query(sql)
-														end
-														
-														# nothing in birthdate or placeOfBirth is okay
-													end
-												
-												else
-													puts "only 'm' or 'w'"
-												end
-												
-											else
-												puts "no gender"
-											end
+post '/api/v1/createDirector' do
+	alreadyInDB = false
+	validFirstName = false
+	validSurName = false
+	validPlaceOfBirth = true
+	validBirthdate = true
+	validGender = false
 
-										else			
-											"no valid day"
-										end
-										
-									else
-										puts "no valid month"
-									end
-									
-								else
-									puts "no valid year"
-								end
-								
-							else
-								puts "no valid pattern"
-							end
-						
-						else
-							# nothing in birthdate is okay
-							if params["gender"]
-								if params["gender"] == "m" || params["gender"] == "w"
-									params["firstName"] = params["firstName"].capitalize
-									params["surName"] = params["surName"].capitalize
-									sql = "INSERT INTO DIRECTOR (Firstname, Surname, Gender) VALUES ('#{params["firstName"]}', '#{params["surName"]}', '#{params["gender"]}')"
-									client.query(sql)
-									if params["placeOfBirth"] || params["birthdate"]
-										sql ="select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
-										results = client.query(sql).map.to_a
-										persID = results[0]["PersID"]
-										if params["placeOfBirth"]
-											params["placeOfBirth"] = params["placeOfBirth"].capitalize
-											sql = "update DIRECTOR set PlaceOfBirth = '#{params["placeOfBirth"]}' where PersID = #{persID}"
-											client.query(sql)
-										end
-										if params["birthdate"]
-											sql = "update DIRECTOR set Birthdate = '#{params["birthdate"]}' where PersID = #{persID}"
-											client.query(sql)
-										end
-										
-										# nothing in birthdate or placeOfBirth is okay
-									end
-								
-								else
-									puts "only 'm' or 'w'"
-								end
-								
-							else
-								puts "no gender"
-							end
-							
-						end
-						
-					else
-						puts "name in db"
-					end
-				
-				else
-					puts "only one surName"
-				end
-				
+	if params["firstName"] && params["firstName"] == ""
+		if (params["firstName"].count " ") == 0 # no " " in surName
+			if (params["firstName"] =~/[[upper:]]/) == 0
+				validFirstName = true
 			else
-			puts "no surName"
+				puts "firstName must start with upper case"
 			end
-				
 		else
 			puts "only one firstName"
 		end
-		
 	else
 		puts "no firstName"
 	end
 	
+	if params["surName"] && params["surName"] == ""
+		if (params["surName"].count " ") == 0 # no " " in surName
+			if (params["surName"] =~/[[upper:]]/) == 0
+				validSurName = true			
+			else
+				puts "surName must start with upper case"
+			end
+		else
+			puts "only one surName"
+		end
+	else
+		puts "no surName"
+	end
+	
+	if validFirstName && validSurName
+		sql = "select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
+		results = client.query(sql)
+		if results.map.to_a[0] == nil # not in DB
+			alreadyInDB = false
+		else
+			puts "already in DB"
+		end
+	end
+		
+	if params["placeOfBirth"]
+		if (params["placeOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
+			puts "placeOfBirth must start with an upper case"
+			validPlaceOfBirth = false
+		end
+		
+		if (params["placeOfBirth"] =~ /[[:digit:]]/) != nil # no digit in PlaceOfBirth
+			puts "only Characters in placeOfBirth"
+			validPlaceOfBirth = false
+		end
+	end
+		
+	if params["birthdate"]
+		if (params["birthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+			year = params["birthdate"][0,4].to_i
+			month = params["birthdate"][5,2].to_i
+			day = params["birthdate"][8,2].to_i
+			if year > Date.today.strftime("%Y").to_i
+				if month > 12
+					if day > 31	
+						puts "no valid day"
+						validBirthdate = false
+					end
+					puts "no valid month"
+					validBirthdate = false
+				end
+				puts "no valid year"
+				validBirthdate = false
+			end
+			puts "no valid birthdate pattern"
+			validBirthdate = false
+		end
+	end
+		
+	if params["gender"] == "m" || params["gender"] == "w"
+		validGender = true
+	else
+		puts "no valid gender"
+	end
+	
+	if validFirstName && validSurName && validGender && !alreadyInDB && validBirthdate && validPlaceOfBirth
+		sql = "INSERT INTO DIRECTOR (Firstname, Surname, Gender) VALUES ('#{params["firstName"]}', '#{params["surName"]}', '#{params["gender"]}')"
+		client.query(sql)
+		if validBirthdate || validPlaceOfBirth
+			sql ="select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
+			results = client.query(sql).map.to_a
+			persID = results[0]["PersID"]
+			if params["birthdate"]
+				sql = "update DIRECTOR set Birthdate = '#{params["birthdate"]}' where PersID = #{persID}"
+				client.query(sql)
+			end
+			if params["placeOfBirth"]
+				sql = "update DIRECTOR set PlaceOfBirth = '#{params["placeOfBirth"]}' where PersID = #{persID}"
+				client.query(sql)
+			end
+		end			
+	end
+end
+
+post '/api/v1/editDirector' do
+	if params["newFirstName"] != nil && params["newFirstName"] != ""
+		if (params["newFirstName"].count " ") == 0 # no " " in surName
+			if (params["newFirstName"] =~/[[:upper:]]/) == 0
+				sql = "update DIRECTOR set Firstname = '#{params["newFirstName"]}' where PersID = 1047"
+				client.query(sql)
+			else
+				puts "firstName must start with upper case"
+			end
+		else
+			puts "only one firstName"
+		end
+	end
+	
+	if params["newSurName"] != nil && params["newSurName"] != ""
+		if (params["newSurName"].count " ") == 0 # no " " in surName
+			if (params["newSurName"] =~/[[:upper:]]/) == 0
+				sql = "update DIRECTOR set Surname = '#{params["newSurName"]}' where PersID = 1047"
+				client.query(sql)
+			else
+				puts "surName must start with upper case"
+			end
+		else
+			puts "only one surName"
+		end
+	end
+	
+	if params["newPlaceOfBirth"]
+		validPlaceOfBirth = true
+		if (params["newPlaceOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
+			puts "placeOfBirth must start with an upper case"
+			validPlaceOfBirth = false
+		end
+		
+		if (params["newplaceOfBirth"] =~ /[[:digit:]]/) != nil # no digit in PlaceOfBirth
+			puts "only Characters in placeOfBirth"
+			validPlaceOfBirth = false
+		end
+		
+		if validPlaceOfBirth
+			sql = "update DIRECTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = 1047"
+			client.query(sql)
+		end
+	end
+	
+	if params["newBirthdate"]
+		validBirthdate = true
+		if (params["newBirthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+			year = params["newBirthdate"][0,4].to_i
+			month = params["newBirthdate"][5,2].to_i
+			day = params["newBirthdate"][8,2].to_i
+			if year > Date.today.strftime("%Y").to_i
+				if month > 12
+					if day > 31	
+						puts "no valid day"
+						validBirthdate = false
+					end
+					puts "no valid month"
+					validBirthdate = false
+				end
+				puts "no valid year"
+				validBirthdate = false
+			end
+			puts "no valid newBirthdate pattern"
+			validBirthdate = false
+		end
+		if validBirthdate
+			sql = "update DIRECTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = 1047"
+			client.query(sql)
+		end
+	end
 end
 
 # post '/api/v1/movie' do

@@ -9,4 +9,5 @@ App.Router.map(function () {
 	this.resource('directors', {path: '/directors'});
 	this.resource('createMovie', {path: '/createMovie'});
 	this.resource('createDirector', {path: '/createDirector'});
+	this.resource('editDirector', {path: '/editDirector'});
 });

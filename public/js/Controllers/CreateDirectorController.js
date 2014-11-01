@@ -3,7 +3,7 @@ App.CreateDirectorController = Ember.Controller.extend({
 	actions: {
 		submit_director: function () {
 			var data = Ember.get(this, 'model');
-			Ember.$.post('/api/v1/director', data);
+			Ember.$.post('/api/v1/createDirector', data);
 		}
 	}
 });

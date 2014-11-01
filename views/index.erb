@@ -24,6 +24,7 @@
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -35,6 +36,7 @@
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
+	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
 
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -128,6 +130,17 @@
       </div>
     </script>
 	
+	<script type="text/x-handlebars" data-template-name="directors">
+      <div class="content_head">
+        <p>Directors</p>
+		<a {{action 'createDirector'}}>Add</a>
+		<a {{action 'editDirector'}}>Edit</a>
+      </div>
+      {{#each model}}
+        {{director-container model=this}}
+      {{/each}}
+    </script>
+	
 	<script type="text/x-handlebars" data-template-name="createDirector">
       <div class="content_head">
         <p>Create Director</p>
@@ -140,16 +153,16 @@
       </div>
     </script>
 	
-    <script type="text/x-handlebars" data-template-name="directors">
+	<script type="text/x-handlebars" data-template-name="editDirector">
       <div class="content_head">
-        <p>Directors</p>
-		<a {{action 'createDirector'}}>Add</a>
-      </div>
-      {{#each model}}
-        {{director-container model=this}}
-      {{/each}}
+        <p>Edit Director</p>
+        {{input value=model.newFirstName placeholder="new Firstname"}}
+		{{input value=model.newSurName placeholder="new Surname"}}
+		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
+		{{input value=model.newBirthdate placeholder="new Birthdate"}}
+		<button {{action 'edit_director'}}>edit</button>
     </script>
-
+	
     <script type="text/x-handlebars" id="components/movie-container">
       <h3>{{model.Title}}</h3>
       <div class="movie_container">

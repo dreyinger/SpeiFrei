@@ -23,6 +23,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		createDirector: function () {
 			this.transitionTo('createDirector');
+		},
+		editDirector: function () {
+			this.transitionTo('editDirector');
 		}
 	}
 });
