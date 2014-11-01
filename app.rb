@@ -76,7 +76,7 @@ end
 get '/api/v1/directors' do
 	content_type :json
 
-	sql = "select * from DIRECTOR"	
+	sql = "select * from DIRECTOR order by Surname"	
 	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true).each do |row|
@@ -429,6 +429,10 @@ post '/api/v1/editDirector' do
 			client.query(sql)
 		end
 	end
+end
+
+post '/api/v1/selectDirector' do
+
 end
 
 # post '/api/v1/movie' do

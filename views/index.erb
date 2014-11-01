@@ -25,6 +25,7 @@
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -37,6 +38,7 @@
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
+	<script type="text/javascript" src="js/Controllers/SelectDirectorController.js"></script>
 
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -134,7 +136,7 @@
       <div class="content_head">
         <p>Directors</p>
 		<a {{action 'createDirector'}}>Add</a>
-		<a {{action 'editDirector'}}>Edit</a>
+		<a {{action 'selectDirector'}}>Edit</a>
       </div>
       {{#each model}}
         {{director-container model=this}}
@@ -151,6 +153,18 @@
 		{{input value=model.gender placeholder="Gender - m/w"}}
         <button {{action 'submit_director'}}>submit</button>
       </div>
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="selectDirector">
+      <div class="content_head">
+        <p>Select the Director you want to edit</p>
+		{{input value=model.persID placeholder="ID of Director"}}
+		<button {{action 'edit_director'}}>edit</button>
+		<h1>Directors</h1>
+		</div>
+	    {{#each model}}
+			{{director-container-all model=this}}
+		{{/each}}
     </script>
 	
 	<script type="text/x-handlebars" data-template-name="editDirector">
@@ -194,6 +208,16 @@
 		  <p>Place of birth: {{model.PlaceOfBirth}}</p>
 		  <p>Birthdate: {{model.Birthdate}}</p>
 		  <p>Gender: {{model.Gender}}</p>
+		</div>
+    </script>
+	
+	<script type="text/x-handlebars" id="components/director-container-all">
+    <div class="director_container">
+		<p>{{model.Firstname}} {{model.Surname}}:</p>
+		<p>ID: {{model.PersID}};</p>
+		<p>Place of birth: {{model.PlaceOfBirth}};</p>
+		<p>Birthdate: {{model.Birthdate}};</p>
+		<p>Gender: {{model.Gender}}</p>
 		</div>
     </script>
 
