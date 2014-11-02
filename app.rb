@@ -261,9 +261,9 @@ post '/api/v1/createDirector' do
 	validBirthdate = true
 	validGender = false
 
-	if params["firstName"] && params["firstName"] == ""
+	if params["firstName"] && params["firstName"] != ""
 		if (params["firstName"].count " ") == 0 # no " " in surName
-			if (params["firstName"] =~/[[upper:]]/) == 0
+			if (params["firstName"] =~ /[[:upper:]]/) == 0
 				validFirstName = true
 			else
 				puts "firstName must start with upper case"
@@ -275,9 +275,9 @@ post '/api/v1/createDirector' do
 		puts "no firstName"
 	end
 	
-	if params["surName"] && params["surName"] == ""
+	if params["surName"] && params["surName"] != ""
 		if (params["surName"].count " ") == 0 # no " " in surName
-			if (params["surName"] =~/[[upper:]]/) == 0
+			if (params["surName"] =~ /[[:upper:]]/) == 0
 				validSurName = true			
 			else
 				puts "surName must start with upper case"
@@ -298,8 +298,8 @@ post '/api/v1/createDirector' do
 			puts "already in DB"
 		end
 	end
-		
-	if params["placeOfBirth"]
+	
+	if params["placeOfBirth"] != nil && params["placeOfBirth"] != ""
 		if (params["placeOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
 			puts "placeOfBirth must start with an upper case"
 			validPlaceOfBirth = false
@@ -311,7 +311,7 @@ post '/api/v1/createDirector' do
 		end
 	end
 		
-	if params["birthdate"]
+	if params["birthdate"] && params["birthdate"] != ""
 		if (params["birthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
 			year = params["birthdate"][0,4].to_i
 			month = params["birthdate"][5,2].to_i
@@ -432,8 +432,115 @@ post '/api/v1/editDirector' do
 end
 
 post '/api/v1/selectDirector' do
-
+	puts "test"
 end
+
+post '/api/v1/createActor' do
+	alreadyInDB = false
+	validFirstName = false
+	validSurName = false
+	validPlaceOfBirth = true
+	validBirthdate = true
+	validGender = false
+	
+	if params["firstName"] && params["firstName"] != ""
+		if (params["firstName"].count " ") == 0 # no " " in surName
+			if (params["firstName"] =~ /[[:upper:]]/) == 0
+				validFirstName = true
+			else
+				puts "firstName must start with upper case"
+			end
+		else
+			puts "only one firstName"
+		end
+	else
+		puts "no firstName"
+	end
+	
+	if params["surName"] && params["surName"] != ""
+		if (params["surName"].count " ") == 0 # no " " in surName
+			if (params["surName"] =~ /[[:upper:]]/) == 0
+				validSurName = true			
+			else
+				puts "surName must start with upper case"
+			end
+		else
+			puts "only one surName"
+		end
+	else
+		puts "no surName"
+	end
+	
+	if validFirstName && validSurName
+		sql = "select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
+		results = client.query(sql)
+		if results.map.to_a[0] == nil # not in DB
+			alreadyInDB = false
+		else
+			puts "already in DB"
+		end
+	end
+	
+	if params["placeOfBirth"] != nil && params["placeOfBirth"] != ""
+		if (params["placeOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
+			puts "placeOfBirth must start with an upper case"
+			validPlaceOfBirth = false
+		end
+		
+		if (params["placeOfBirth"] =~ /[[:digit:]]/) != nil # no digit in PlaceOfBirth
+			puts "only Characters in placeOfBirth"
+			validPlaceOfBirth = false
+		end
+	end
+		
+	if params["birthdate"] && params["birthdate"] != ""
+		if (params["birthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+			year = params["birthdate"][0,4].to_i
+			month = params["birthdate"][5,2].to_i
+			day = params["birthdate"][8,2].to_i
+			if year > Date.today.strftime("%Y").to_i
+				if month > 12
+					if day > 31	
+						puts "no valid day"
+						validBirthdate = false
+					end
+					puts "no valid month"
+					validBirthdate = false
+				end
+				puts "no valid year"
+				validBirthdate = false
+			end
+			puts "no valid birthdate pattern"
+			validBirthdate = false
+		end
+	end
+		
+	if params["gender"] == "m" || params["gender"] == "w"
+		validGender = true
+	else
+		puts "no valid gender"
+	end
+	
+	if validFirstName && validSurName && validGender && !alreadyInDB && validBirthdate && validPlaceOfBirth
+		sql = "INSERT INTO ACTOR (Firstname, Surname, Gender) VALUES ('#{params["firstName"]}', '#{params["surName"]}', '#{params["gender"]}')"
+		client.query(sql)
+		if validBirthdate || validPlaceOfBirth
+			sql ="select PersID from ACTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
+			results = client.query(sql).map.to_a
+			persID = results[0]["PersID"]
+			if params["birthdate"]
+				sql = "update ACTOR set Birthdate = '#{params["birthdate"]}' where PersID = #{persID}"
+				client.query(sql)
+			end
+			if params["placeOfBirth"]
+				sql = "update ACTOR set PlaceOfBirth = '#{params["placeOfBirth"]}' where PersID = #{persID}"
+				client.query(sql)
+			end
+		end			
+	end
+end
+
+
 
 # post '/api/v1/movie' do
 # 	data = params

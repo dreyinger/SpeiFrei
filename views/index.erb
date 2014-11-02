@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -39,9 +40,11 @@
 	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/SelectDirectorController.js"></script>
-
+	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
+	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
+	
   </head>
   <body>
     <script type="text/x-handlebars" data-template-name="application">
@@ -110,10 +113,23 @@
     <script type="text/x-handlebars" data-template-name="actors">
       <div class="content_head">
         <p>Actors</p>
+		<a {{action 'createActor'}}>Add</a>
       </div>
       {{#each model}}
         {{actor-container model=this}}
       {{/each}}
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="createActor">
+      <div class="content_head">
+        <p>Create Actor</p>
+        {{input value=model.firstName placeholder="Firstname"}}
+        {{input value=model.surName placeholder="Surname"}}
+		{{input value=model.placeOfBirth placeholder="Place of Birth"}}
+		{{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
+		{{input value=model.gender placeholder="Gender - m/w"}}
+        <button {{action 'submit_actor'}}>submit</button>
+      </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="createMovie">
@@ -159,7 +175,7 @@
       <div class="content_head">
         <p>Select the Director you want to edit</p>
 		{{input value=model.persID placeholder="ID of Director"}}
-		<button {{action 'edit_director'}}>edit</button>
+		<button {{action 'editDirector'}}>edit</button>
 		<h1>Directors</h1>
 		</div>
 	    {{#each model}}
