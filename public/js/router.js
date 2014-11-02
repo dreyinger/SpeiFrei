@@ -12,4 +12,5 @@ App.Router.map(function () {
 	this.resource('editDirector', {path: '/editDirector'});
 	this.resource('selectDirector', {path: '/selectDirector'});
 	this.resource('createActor', {path: '/createActor'});
+	this.resource('editActor', {path: '/editActor'});
 });

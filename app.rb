@@ -359,10 +359,11 @@ post '/api/v1/createDirector' do
 end
 
 post '/api/v1/editDirector' do
+	persID = 1000
 	if params["newFirstName"] != nil && params["newFirstName"] != ""
 		if (params["newFirstName"].count " ") == 0 # no " " in surName
 			if (params["newFirstName"] =~/[[:upper:]]/) == 0
-				sql = "update DIRECTOR set Firstname = '#{params["newFirstName"]}' where PersID = 1047"
+				sql = "update DIRECTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{persID}"
 				client.query(sql)
 			else
 				puts "firstName must start with upper case"
@@ -375,7 +376,7 @@ post '/api/v1/editDirector' do
 	if params["newSurName"] != nil && params["newSurName"] != ""
 		if (params["newSurName"].count " ") == 0 # no " " in surName
 			if (params["newSurName"] =~/[[:upper:]]/) == 0
-				sql = "update DIRECTOR set Surname = '#{params["newSurName"]}' where PersID = 1047"
+				sql = "update DIRECTOR set Surname = '#{params["newSurName"]}' where PersID = #{persID}"
 				client.query(sql)
 			else
 				puts "surName must start with upper case"
@@ -385,7 +386,7 @@ post '/api/v1/editDirector' do
 		end
 	end
 	
-	if params["newPlaceOfBirth"]
+	if params["newPlaceOfBirth"] && params["newPlaceOfBirth"] != ""
 		validPlaceOfBirth = true
 		if (params["newPlaceOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
 			puts "placeOfBirth must start with an upper case"
@@ -398,12 +399,12 @@ post '/api/v1/editDirector' do
 		end
 		
 		if validPlaceOfBirth
-			sql = "update DIRECTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = 1047"
+			sql = "update DIRECTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = #{persID}"
 			client.query(sql)
 		end
 	end
 	
-	if params["newBirthdate"]
+	if params["newBirthdate"] && params["newBirthdate"] != ""
 		validBirthdate = true
 		if (params["newBirthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
 			year = params["newBirthdate"][0,4].to_i
@@ -425,8 +426,17 @@ post '/api/v1/editDirector' do
 			validBirthdate = false
 		end
 		if validBirthdate
-			sql = "update DIRECTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = 1047"
+			sql = "update DIRECTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = #{persID}"
 			client.query(sql)
+		end
+	end
+	
+	if params["newGender"] && params["newGender"]
+		if params["newGender"] == "m" || params["newGender"] == "w"
+			sql = "update DIRECTOR set Gender = '#{params["newGender"]}' where PersID = #{persID}"
+			client.query(sql)
+		else
+			puts "only 'm' or 'w'"
 		end
 	end
 end
@@ -540,7 +550,88 @@ post '/api/v1/createActor' do
 	end
 end
 
-
+post '/api/v1/editActor' do
+	persID = 1000
+	if params["newFirstName"] != nil && params["newFirstName"] != ""
+		if (params["newFirstName"].count " ") == 0 # no " " in surName
+			if (params["newFirstName"] =~/[[:upper:]]/) == 0
+				sql = "update ACTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{persID}"
+				client.query(sql)
+			else
+				puts "firstName must start with upper case"
+			end
+		else
+			puts "only one firstName"
+		end
+	end
+	
+	if params["newSurName"] != nil && params["newSurName"] != ""
+		if (params["newSurName"].count " ") == 0 # no " " in surName
+			if (params["newSurName"] =~/[[:upper:]]/) == 0
+				sql = "update ACTOR set Surname = '#{params["newSurName"]}' where PersID =  #{persID}"
+				client.query(sql)
+			else
+				puts "surName must start with upper case"
+			end
+		else
+			puts "only one surName"
+		end
+	end
+	
+	if params["newPlaceOfBirth"] && params["newPlaceOfBirth"] != ""
+		validPlaceOfBirth = true
+		if (params["newPlaceOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
+			puts "placeOfBirth must start with an upper case"
+			validPlaceOfBirth = false
+		end
+		
+		if (params["newplaceOfBirth"] =~ /[[:digit:]]/) != nil # no digit in PlaceOfBirth
+			puts "only Characters in placeOfBirth"
+			validPlaceOfBirth = false
+		end
+		
+		if validPlaceOfBirth
+			sql = "update ACTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID =  #{persID}"
+			client.query(sql)
+		end
+	end
+	
+	if params["newBirthdate"] && params["newBirthdate"] != ""
+		validBirthdate = true
+		if (params["newBirthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+			year = params["newBirthdate"][0,4].to_i
+			month = params["newBirthdate"][5,2].to_i
+			day = params["newBirthdate"][8,2].to_i
+			if year > Date.today.strftime("%Y").to_i
+				if month > 12
+					if day > 31	
+						puts "no valid day"
+						validBirthdate = false
+					end
+					puts "no valid month"
+					validBirthdate = false
+				end
+				puts "no valid year"
+				validBirthdate = false
+			end
+			puts "no valid newBirthdate pattern"
+			validBirthdate = false
+		end
+		if validBirthdate
+			sql = "update ACTOR set Birthdate = '#{params["newBirthdate"]}' where PersID =  '#{persID}'"
+			client.query(sql)
+		end
+	end
+	
+	if params["newGender"] && params["newGender"]
+		if params["newGender"] == "m" || params["newGender"] == "w"
+			sql = "update ACTOR set Gender = '#{params["newGender"]}' where PersID =  #{persID}"
+			client.query(sql)
+		else
+			puts "only 'm' or 'w'"
+		end
+	end
+end
 
 # post '/api/v1/movie' do
 # 	data = params

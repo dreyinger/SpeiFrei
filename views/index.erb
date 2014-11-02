@@ -27,6 +27,7 @@
 	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -41,6 +42,7 @@
 	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/SelectDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
+	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -114,6 +116,7 @@
       <div class="content_head">
         <p>Actors</p>
 		<a {{action 'createActor'}}>Add</a>
+		<a {{action 'editActor'}}>Edit</a>
       </div>
       {{#each model}}
         {{actor-container model=this}}
@@ -130,6 +133,17 @@
 		{{input value=model.gender placeholder="Gender - m/w"}}
         <button {{action 'submit_actor'}}>submit</button>
       </div>
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="editActor">
+      <div class="content_head">
+        <p>Edit Actor</p>
+        {{input value=model.newFirstName placeholder="new Firstname"}}
+		{{input value=model.newSurName placeholder="new Surname"}}
+		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
+		{{input value=model.newBirthdate placeholder="new Birthdate"}}
+		{{input value=model.newGender placeholder="new Gender"}}
+		<button {{action 'edit_actor'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="createMovie">
@@ -190,6 +204,7 @@
 		{{input value=model.newSurName placeholder="new Surname"}}
 		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
 		{{input value=model.newBirthdate placeholder="new Birthdate"}}
+		{{input value=model.newGender placeholder="new Gender"}}
 		<button {{action 'edit_director'}}>edit</button>
     </script>
 	

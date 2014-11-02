@@ -32,6 +32,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		createActor: function () {
 			this.transitionTo('createActor');
+		},
+		editActor: function () {
+			this.transitionTo('editActor');
 		}
 	}
 });
