@@ -29,6 +29,7 @@
 	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/DeleteStudioRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -81,16 +82,6 @@
       </div>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="movies">
-      <div class="content_head">
-        <p>Movies</p>
-        <a {{action 'createMovie'}}>Add</a>
-      </div>
-      {{#each model}}
-        {{movie-container model=this}}
-      {{/each}}
-    </script>
-
     <script type="text/x-handlebars" data-template-name="signin">
       <div class="signin_container">
         <p>Please Sign in</p>
@@ -109,7 +100,6 @@
       <div class="content_head">
         <p>Studios</p>
 		<a {{action 'createStudio'}}>Add</a>
-		<a {{action 'editStudio'}}>Edit</a>
       </div>
       {{#each model}}
         {{studio-container model=this}}
@@ -131,12 +121,17 @@
 		{{input value=model.newHeadquarter placeholder="Headquarter"}}
 		<button {{action 'edit_studio'}}>edit</button>
     </script>
+	
+	<script type="text/x-handlebars" data-template-name="deleteStudio">
+      <div class="content_head">
+        <p>Delete a Studio</p>
+		<button {{action 'delete_studio'}}>delete</button>
+    </script>
 
     <script type="text/x-handlebars" data-template-name="actors">
       <div class="content_head">
         <p>Actors</p>
 		<a {{action 'createActor'}}>Add</a>
-		<a {{action 'editActor'}}>Edit</a>
       </div>
       {{#each model}}
         {{actor-container model=this}}
@@ -166,6 +161,16 @@
 		<button {{action 'edit_actor'}}>edit</button>
     </script>
 
+    <script type="text/x-handlebars" data-template-name="movies">
+      <div class="content_head">
+        <p>Movies</p>
+        <a {{action 'createMovie'}}>Add</a>
+      </div>
+      {{#each model}}
+        {{movie-container model=this}}
+      {{/each}}
+    </script>
+	
     <script type="text/x-handlebars" data-template-name="createMovie">
       <div class="content_head">
         <p>Create Movie</p>
@@ -186,7 +191,6 @@
       <div class="content_head">
         <p>Directors</p>
 		<a {{action 'createDirector'}}>Add</a>
-		<a {{action 'selectDirector'}}>Edit</a>
       </div>
       {{#each model}}
         {{director-container model=this}}
@@ -203,18 +207,6 @@
 		{{input value=model.gender placeholder="Gender - m/w"}}
         <button {{action 'submit_director'}}>submit</button>
       </div>
-    </script>
-	
-	<script type="text/x-handlebars" data-template-name="selectDirector">
-      <div class="content_head">
-        <p>Select the Director you want to edit</p>
-		{{input value=model.persID placeholder="ID of Director"}}
-		<button {{action 'editDirector'}}>edit</button>
-		<h1>Directors</h1>
-		</div>
-	    {{#each model}}
-			{{director-container-all model=this}}
-		{{/each}}
     </script>
 	
 	<script type="text/x-handlebars" data-template-name="editDirector">
