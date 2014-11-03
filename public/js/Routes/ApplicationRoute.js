@@ -38,9 +38,6 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		createStudio: function () {
 			this.transitionTo('createStudio');
-		},
-		deleteStudio: function () {
-			this.transitionTo('deleteStudio');
 		}
 	}
 });

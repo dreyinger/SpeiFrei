@@ -695,23 +695,19 @@ post '/api/v1/editStudio' do
 		else
 			puts "only one name"
 		end
+	end
 	
 	if params["newHeadquarter"] != nil && params["newHeadquarter"] != ""
 		if (params["newHeadquarter"] =~/[[:upper:]]/) == 0
 				sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{studioID}"
 				client.query(sql)
+			else
+				puts "name must start with upper case"
+			end
 		else
-			puts "name must start with upper case"
+			puts "only one name"
 		end
-	else
-		puts "only one name"
 	end
-end
-
-post '/api/v1/deleteStudio' do
-	studioID = 1000
-	sql = "DELETE FROM STUDIO WHERE StudioID = #{studioID}";
-	client.query(sql)
 end
 	
 # post '/api/v1/movie' do
