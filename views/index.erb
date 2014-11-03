@@ -6,7 +6,7 @@
     <script type="text/javascript" src="libs/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="libs/handlebars-v1.3.0.js"></script>
     <script type="text/javascript" src="libs/ember.js"></script>
-    <script src="http://builds.emberjs.com/beta/ember-data.js"></script>
+    <script type="text/javascript" src="libs/ember-data.js"></script>
 
     <link rel="stylesheet/less" type="text/css" href="stylesheets/styles.less" />
     <script type="text/javascript" src="libs/less.js"></script>
@@ -23,6 +23,7 @@
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -33,6 +34,7 @@
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
 
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
@@ -74,8 +76,28 @@
         <a {{action 'createMovie'}}>Add</a>
       </div>
       {{#each model}}
-        {{movie-container model=this}}
+        {{movie-container action="goToMoovie" model=this}}
       {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="movie">
+      <div class="content_head">
+        <p>{{model.Title}}</p>
+      </div>
+      <div class="movie_container">
+        <table>
+          <tr>
+            <td>Duration: {{model.Duration}}</td>
+            <td>Agerating: {{model.AgeRating}}</td>
+            <td>Genre: {{model.Genre}}</td>
+            <td>Mood: {{model.Mood}}</td>
+            <td>Releasedate: {{model.ReleaseDate}}</td>
+            <td>Rating: {{model.AvgRating}}</td>
+            <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{model.D_PersID}}</a></td>
+            <td>Studio: {{studioName}}</td>
+          </tr>
+        </table>
+      </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="signin">
@@ -136,7 +158,7 @@
     </script>
 
     <script type="text/x-handlebars" id="components/movie-container">
-      <h3>{{model.Title}}</h3>
+      <h3><a {{action 'goToMoovie'}}>Test{{model.Title}}</a></h3>
       <div class="movie_container">
         <table>
           <tr>
@@ -146,8 +168,8 @@
         		<td>Mood: {{model.Mood}}</td>
         		<td>Releasedate: {{model.ReleaseDate}}</td>
         		<td>Rating: {{model.AvgRating}}</td>
-        		<td>Director: {{model.D_PersID}}</td>
-        		<td>Studio: {{studioName}}</td>
+        		<!--<td>Director: {{model.D_PersID}}</td>-->
+        		<!--<td>Studio: {{studioName}}</td>-->
           </tr>
         </table>
       </div>

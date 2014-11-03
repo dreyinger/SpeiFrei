@@ -20,6 +20,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		createMovie: function () {
 			this.transitionTo('createMovie');
-		}
+		},
+		goToMoovie: function (param) {
+      this.transitionTo('/movie/' + param);
+    }
 	}
 });
