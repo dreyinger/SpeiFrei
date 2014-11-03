@@ -19,7 +19,7 @@ App.MovieContainerComponent = Ember.Component.extend({
 	// 	// }
 	// }
 	actions: {
-		goToMoovie: function () {
+		goToMovie: function () {
 			this.sendAction('action', Ember.get(this, 'model.MovieID'));
 		}
 	}
