@@ -697,9 +697,9 @@ post '/api/v1/editStudio' do
 		end
 	end
 	
-	if params["newHeadquarter"] != nil && params["newStudioID"] != ""
-		if (params["newStudioID"] =~/[[:upper:]]/) == 0
-				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{studioID}"
+	if params["newHeadquarter"] != nil && params["newHeadquarter"] != ""
+		if (params["newHeadquarter"] =~/[[:upper:]]/) == 0
+				sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{studioID}"
 				client.query(sql)
 			else
 				puts "name must start with upper case"
