@@ -254,7 +254,7 @@ post '/api/v1/createMovie' do
 end
 
 post '/api/v1/createDirector' do
-	alreadyInDB = false
+	alreadyInDB = true
 	validFirstName = false
 	validSurName = false
 	validPlaceOfBirth = true
@@ -446,7 +446,7 @@ post '/api/v1/selectDirector' do
 end
 
 post '/api/v1/createActor' do
-	alreadyInDB = false
+	alreadyInDB = true
 	validFirstName = false
 	validSurName = false
 	validPlaceOfBirth = true
@@ -482,7 +482,7 @@ post '/api/v1/createActor' do
 	end
 	
 	if validFirstName && validSurName
-		sql = "select PersID from DIRECTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
+		sql = "select PersID from ACTOR where Firstname = '#{params["firstName"]}' and Surname = '#{params["surName"]}'"
 		results = client.query(sql)
 		if results.map.to_a[0] == nil # not in DB
 			alreadyInDB = false
@@ -633,6 +633,83 @@ post '/api/v1/editActor' do
 	end
 end
 
+post '/api/v1/createStudio' do
+	alreadyInDB = true
+	validName = false
+	validHeadquater = true
+	
+	if params["name"] && params["name"] != ""
+		if (params["name"].count " ") == 0 # no " " in surName
+			if (params["name"] =~ /[[:upper:]]/) == 0
+				validName = true
+			else
+				puts "name must start with upper case"
+			end
+		else
+			puts "only one name"
+		end
+	else
+		puts "no name"
+	end
+	
+	if validName
+		sql = "select StudioID from STUDIO where Name = '#{params["name"]}'"
+		results = client.query(sql)
+		if results.map.to_a[0] == nil # not in DB
+			alreadyInDB = false
+		else
+			puts "already in DB"
+		end
+	end
+	
+	if params["headquarter"] != nil && params["headquarter"] != ""
+		if (params["headquarter"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
+			puts "headquarter must start with an upper case"
+			validHeadquater = false
+		end
+	end
+	
+	if validName && !alreadyInDB && validHeadquater
+		sql = "INSERT INTO STUDIO (Name, Headquarter) VALUES ('#{params["name"]}', '#{params["headquarter"]}')"
+		client.query(sql)
+		if validHeadquater
+			sql ="select StudioID from STUDIO where Name = '#{params["name"]}'"
+			results = client.query(sql).map.to_a
+			studioID = results[0]["StudioID"]
+			sql = "update STUDIO set Headquarter = '#{params["headquarter"]}' where StudioID = #{studioID}"
+			client.query(sql)
+		end			
+	end
+	
+end
+
+post '/api/v1/editStudio' do
+	studioID = 1000
+	if params["newStudioID"] != nil && params["newStudioID"] != ""
+		if (params["newStudioID"] =~/[[:upper:]]/) == 0
+				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{studioID}"
+				client.query(sql)
+			else
+				puts "name must start with upper case"
+			end
+		else
+			puts "only one name"
+		end
+	end
+	
+	if params["newHeadquarter"] != nil && params["newStudioID"] != ""
+		if (params["newStudioID"] =~/[[:upper:]]/) == 0
+				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{studioID}"
+				client.query(sql)
+			else
+				puts "name must start with upper case"
+			end
+		else
+			puts "only one name"
+		end
+	end
+end
+	
 # post '/api/v1/movie' do
 # 	data = params
 # 	puts data

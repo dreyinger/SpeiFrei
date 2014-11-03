@@ -19,6 +19,7 @@
     <script type="text/javascript" src="js/Routes/SigninRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
     <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
@@ -34,6 +35,7 @@
     <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
     <script type="text/javascript" src="js/Controllers/SignupController.js"></script>
     <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateStudioController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
@@ -106,10 +108,28 @@
     <script type="text/x-handlebars" data-template-name="studios">
       <div class="content_head">
         <p>Studios</p>
+		<a {{action 'createStudio'}}>Add</a>
+		<a {{action 'editStudio'}}>Edit</a>
       </div>
       {{#each model}}
         {{studio-container model=this}}
       {{/each}}
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="createStudio">
+      <div class="content_head">
+        <p>Create a Studio</p>
+		{{input value=model.name placeholder="Name"}}
+		{{input value=model.headquarter placeholder="Headquarter"}}
+		<button {{action 'submit_studio'}}>submit</button>
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="editStudio">
+      <div class="content_head">
+        <p>Edit a Studio</p>
+		{{input value=model.newName placeholder="Name"}}
+		{{input value=model.newHeadquarter placeholder="Headquarter"}}
+		<button {{action 'edit_studio'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="actors">
