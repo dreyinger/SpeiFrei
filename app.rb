@@ -1,5 +1,7 @@
+require 'rubygems'
 require 'sinatra'
 require 'mysql2'
+require 'active_record'
 require 'thin'
 require 'multi_json'
 
@@ -40,9 +42,9 @@ get '/api/v1/movies' do
 	sql = "select * from MOVIE"	
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -53,9 +55,9 @@ get '/api/v1/studios' do
 	sql = "select * from STUDIO"	
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -66,9 +68,9 @@ get '/api/v1/actors' do
 	sql = "select * from ACTOR"	
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -79,9 +81,9 @@ get '/api/v1/directors' do
 	sql = "select * from DIRECTOR order by Surname"	
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -105,9 +107,9 @@ get '/api/v1/actor/:id' do
 	sql = "select * from ACTOR where PersID = #{params[:id]}"
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -118,15 +120,9 @@ get '/api/v1/director/:id' do
 	sql = "select Firstname, Surname from DIRECTOR where PersID = #{params[:id]}"
 	data = Hash.new
 	
-	begin 
-		results = client.query(sql, :symbolize_keys => true)
-	rescue Exception => e  
-	  puts e.message  
-	  # puts e.backtrace.inspect  
-	end  
-	results = results.to_a
+	results = client.query(sql, :symbolize_keys => true)
 
-	puts results.inspect
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -137,9 +133,9 @@ get '/api/v1/movie/:id' do
 	sql = "select * from MOVIE where MovieID = #{params[:id]}"
 	data = Array.new
 
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
