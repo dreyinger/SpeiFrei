@@ -1,4 +1,10 @@
 App.DirectorsRoute = Ember.Route.extend ({
+  renderTemplate: function () {
+    this.render('main');
+    this.render('directors', {
+      into: 'main'
+    });
+  },
 	setupController: function (controller) {
     myself = controller;
     controller.set('model', []);

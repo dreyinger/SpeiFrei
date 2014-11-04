@@ -1,4 +1,10 @@
 App.StudiosRoute = Ember.Route.extend ({
+  renderTemplate: function () {
+    this.render('main');
+    this.render('studios', {
+      into: 'main'
+    });
+  },
 	setupController: function (controller) {
     myself = controller;
     controller.set('model', []);

@@ -35,16 +35,43 @@ body {
 	color: @dark2;
 }
 
+.message {
+	color: black;
+}
+
+.error {
+	color: red;
+}
+
+.dropdown {
+	position: absolute;
+	top: 50px;
+	right: 0;
+	width: 100%;
+	background-color: @light1;
+
+	tr {
+		height: 35px;
+
+		&:hover {
+			background-color:  @dark2;
+			color: black;
+		}
+	}
+}
+
 // header
 
 .header {
 	.container;
 
+	position: relative;
 	height: 50px;
 	width: 100%;
 	background-color: @base;
 	margin: 0;
 	padding: 0;
+	-webkit-user-select: none;
 
 	.navbar {
 		.container;
@@ -57,6 +84,8 @@ body {
 
 			.navbar_option {
 				.container;
+
+				position: relative;
 				height: 100%;
 				min-width: 120px;
 				-webkit-flex-grow: 1;

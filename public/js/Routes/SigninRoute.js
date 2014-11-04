@@ -1,5 +1,5 @@
 App.SigninRoute = Ember.Route.extend ({
-	renderTemplate: function() {
+	renderTemplate: function () {
     this.render('signin');
-  }
+  },
 });

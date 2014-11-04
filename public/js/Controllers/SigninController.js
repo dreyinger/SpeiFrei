@@ -1,17 +1,24 @@
 App.SigninController = Ember.Controller.extend({
 	actions: {
-		print: function () {
+		postSignin: function () {
+			var self = this;
 			if (Ember.get(this, "email") && Ember.get(this, "password")) {
 				var data = {email: Ember.get(this, "email"), password: Ember.get(this, "password")};
-				$.post( "login.json", data, function (d) {
-					console.log(JSON.stringify(d));
+				Ember.$.get( '/api/v1/user', data).done(function (d) {
+					if (d) {
+						setCookie('auth', true, 1);
+						Ember.set(self, 'email', undefined);
+						Ember.set(self, 'password', undefined);
+						Ember.set(self, 'message', undefined);
+						self.transitionToRoute('movies');
+					}
 				});
 			} else {
-				try {
-					throw new Error('Whoops!');
-				} catch (e) {alert(e.name + ': ' + e.message);
-				}
+				Ember.set(this, 'message', 'Please enter a valid Username Password combination');
 			}
+		},
+		signup: function () {
+			this.transitionToRoute('signup');
 		}
 	}
 });
