@@ -5,7 +5,8 @@ require 'active_record'
 require 'thin'
 require 'multi_json'
 
-client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+#client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -19,9 +20,6 @@ get '/api/v1/user' do
 
 	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
-
-	puts data
-	puts data.length
 
 	data.length == 1 ? data = {"auth" => true} : data = {"auth" => false}
 

@@ -116,8 +116,8 @@
       <div class="content_head">
 	  	<h1>{{deleted}}</h1>
         <p>{{model.Title}}</p>
-		<a {{action 'editMovie'}}>Edit</a>
-		<a {{action 'delete_movie'}}>Delete</a>
+		    <a {{action 'editMovie'}}>Edit</a>
+		    <a {{action 'delete_movie'}}>Delete</a>
       </div>
       <div class="movie_container">
         <table>
@@ -127,8 +127,8 @@
             <td>Genre: {{model.Genre}}</td>
             <td>Mood: {{model.Mood}}</td>
             <td>Releasedate: {{model.ReleaseDate}}</td>
-            <td>Rating: {{model.AvgRating}}</td>
-            <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{model.D_PersID}}</a></td>
+            <td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>
+            <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
             <td>Studio: {{studioName}}</td>
           </tr>
         </table>
@@ -331,7 +331,7 @@
         		<td>Genre: {{model.Genre}}</td>
         		<td>Mood: {{model.Mood}}</td>
         		<td>Releasedate: {{model.ReleaseDate}}</td>
-        		<td>Rating: {{model.AvgRating}}</td>
+        		<!--<td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>-->
         		<!--<td>Director: {{model.D_PersID}}</td>-->
         		<!--<td>Studio: {{studioName}}</td>-->
           </tr>
