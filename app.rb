@@ -126,30 +126,28 @@ post '/api/v1/createUser' do
 	sql = "INSERT INTO USER (Email, Password, Firstname, Surname) VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]})'"
 	client.query(sql)
 	
-	if params["birthdate"] && params["birthdate"]
+	if params["birthdate"] == ''
 		sql = "update USER set Birthdate = '#{params["birthdate"]}' where Email = #{params[email]}"
 		client.query(sql)
 	end
 	
-	if params["gender"] && params["gender"]
+	if params["gender"] == ''
 		sql = "update USER set Gender = '#{params["gender"]}' where Email = #{params[gender]}"
 		client.query(sql)
 	end
 end
-#	sql = "INSERT INTO USER (Email, Password, Firstname, Surname"
+	#	sql = "INSERT INTO USER (Email, Password, Firstname, Surname"
 
+	#	params["birthdate"] ? (sql += ", Birthdate")
+	#	params["gender"] ? (sql += ", Gender")
 
-#	params["birthdate"] ? (sql += ", Birthdate")
-#	params["gender"] ? (sql += ", Gender")
+	#	sql += ") VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]}'"
 
-#	sql += ") VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]}'"
+	#	params["birthdate"] ? (sql += ", #{params["birthdate"]}")
+	#	params["birthdate"] ? (sql += ", '#{params["gender"]}'")
 
-#	params["birthdate"] ? (sql += ", #{params["birthdate"]}")
-#	params["birthdate"] ? (sql += ", '#{params["gender"]}'")
-
-#	sql += ")"
-
-	puts sql
+	#	sql += ")"
+	# puts sql
 
 	# results = client.query(sql, :symbolize_keys => true)
 	# data = results.to_a

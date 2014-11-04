@@ -19,24 +19,6 @@ App.MainController = Ember.Controller.extend({
 		directors: function () {
 			this.transitionToRoute('directors');
 		},
-		createDirector: function () {
-			this.transitionToRoute('createDirector');
-		},
-		editDirector: function () {
-			this.transitionToRoute('editDirector');
-		},
-		selectDirector: function () {
-			this.transitionToRoute('selectDirector');
-		},
-		createActor: function () {
-			this.transitionToRoute('createActor');
-		},
-		editActor: function () {
-			this.transitionToRoute('editActor');
-		},
-		createStudio: function () {
-			this.transitionToRoute('createStudio');
-		},
 		account: function () {
 			this.toggleProperty('showDrop');
 		},
