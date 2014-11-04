@@ -5,7 +5,7 @@ require 'thin'
 require 'multi_json'
 
 # client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-
+eMail = "m.v@test.com"
 class Clients
 	def initialize()
     @clients = [Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
@@ -42,6 +42,8 @@ end
 get '/api/v1/user' do
 	sql = "select Email from USER where Email = '#{params[:email]}' and Password = '#{params[:password]}'"
 
+	eMail = params[:email]
+	
 	results = client.query(sql)
 	data = results.to_a
 
@@ -106,6 +108,8 @@ get '/api/v1/studio/:id' do
 end
 
 get '/api/v1/actor/:id' do
+
+	puts eMail
 	content_type :json
 	
 	sql = "select * from ACTOR where PersID = #{params[:id]}"
@@ -935,10 +939,10 @@ post '/api/v1/editMovie' do
 
 end
 
-post '/api/v1/accountSettings' do
+get '/api/v1/accountSettings' do
 	content_type :json
 	
-	sql = "select * from USER where Email = 'v.m@test.com'"
+	sql = "select * from USER where Email = '#{eMail}'"
 	results = client.query(sql)
 	data = results.to_a
 	puts data
