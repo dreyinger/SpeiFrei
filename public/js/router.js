@@ -12,7 +12,7 @@ App.Router.map(function () {
 	this.resource('editMovie', {path: '/editMovie'});
 	this.resource('createDirector', {path: '/createDirector'});
 	this.resource('editDirector', {path: '/editDirector'});
-	this.resource('selectDirector', {path: '/selectDirector'});
+	this.resource('director', {path: '/director/:persID'});
 	this.resource('createActor', {path: '/createActor'});
 	this.resource('editActor', {path: '/editActor'});
 	this.resource('createStudio', {path: '/createStudio'});

@@ -24,6 +24,7 @@
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/DirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DeleteMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
@@ -45,17 +46,17 @@
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
     <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/DirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/DeleteMovieController.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
 
 	
     <!-- Components -->
-    <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
+    <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
+	<script type="text/javascript" src="js/Components/DirectorComponent.js"></script>    
 	
   </head>
   <body>
@@ -113,7 +114,6 @@
         <p>{{model.Title}}</p>
 		<a {{action 'editMovie'}}>Edit</a>
 		<a {{action 'delete_movie'}}>Delete</a>
-
       </div>
       <div class="movie_container">
         <table>
@@ -161,10 +161,9 @@
       <div class="content_head">
         <p>Studios</p>
 		<a {{action 'createStudio'}}>Add</a>
-		<a {{action 'editStudio'}}>Edit</a>
       </div>
       {{#each model}}
-        {{studio-container model=this}}
+        {{studio-container action 'goToActor' model=this}}
       {{/each}}
     </script>
 	
@@ -207,6 +206,23 @@
       </div>
     </script>
 	
+    <script type="text/x-handlebars" data-template-name="actor">
+      <div class="content_head">
+	  	<h1>{{deleted}}</h1>
+        <p>{{model.Firstname}} {{model.Surname}}</p>
+		<a {{action 'editMovie'}}>Edit</a>
+		<a {{action 'delete_actor'}}>Delete</a>
+      </div>
+      <div class="movie_container">
+        <table>
+          <tr>
+            <td>Birthdate: {{model.birthdate}}</td>
+			<td>Gender: {{model.gender}}</td>
+          </tr>
+        </table>
+      </div>
+    </script>
+	
 	<script type="text/x-handlebars" data-template-name="editActor">
       <div class="content_head">
         <p>Edit Actor</p>
@@ -241,7 +257,7 @@
 		<a {{action 'editDirector'}}>Edit</a>
       </div>
       {{#each model}}
-        {{director-container model=this}}
+        {{director-container action='goToDirector' model=this}}
       {{/each}}
     </script>
 	
@@ -254,6 +270,24 @@
 		{{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
 		{{input value=model.gender placeholder="Gender - m/w"}}
         <button {{action 'submit_director'}}>submit</button>
+      </div>
+    </script>
+	
+    <script type="text/x-handlebars" data-template-name="director">
+      <div class="content_head">
+	  	<h1>{{deleted}}</h1>
+        <p>{{model.Firstname}} {{model.Surname}}</p>
+		<a {{action 'editMovie'}}>Edit</a>
+		<a {{action 'delete_director'}}>Delete</a>
+      </div>
+      <div class="director_container">
+        <table>
+          <tr>
+            <td>Birthdate: {{model.Birthdate}}</td>
+            <td>Place of Birth: {{model.PlaceOfBirth}}</td>
+            <td>Gender: {{model.Gender}}</td>
+          </tr>
+        </table>
       </div>
     </script>
 	
@@ -294,7 +328,7 @@
     </script>
 	
 	<script type="text/x-handlebars" id="components/director-container">
-    <h3>{{model.Firstname}} {{model.Surname}}:</h3>
+    <h3><a {{action 'goToDirector'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
     <div class="director_container">
 		  <p>Place of birth: {{model.PlaceOfBirth}}</p>
 		  <p>Birthdate: {{model.Birthdate}}</p>

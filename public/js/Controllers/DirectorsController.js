@@ -5,6 +5,9 @@ App.DirectorsController = Ember.Controller.extend({
 		},
 		editDirector: function () {
 			this.transitionToRoute('editDirector');
+		},
+		goToDirector: function (param) {
+			this.transitionToRoute('/director/'+ param);
 		}
 	}
 });
