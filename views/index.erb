@@ -253,13 +253,14 @@
 	
 	<script type="text/x-handlebars" data-template-name="editActor">
       <div class="content_head">
+	  	<h3>{{edited}}</h3>
         <p>Edit Actor</p>
         {{input value=model.newFirstName placeholder="new Firstname"}}
 		{{input value=model.newSurName placeholder="new Surname"}}
 		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
 		{{input value=model.newBirthdate placeholder="new Birthdate"}}
 		{{input value=model.newGender placeholder="new Gender"}}
-		<button {{action 'edit_actor'}}>edit</button>
+		<button {{action 'submitEditActor'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="createMovie">

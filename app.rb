@@ -377,11 +377,11 @@ post '/api/v1/createDirector' do
 end
 
 post '/api/v1/editDirector' do
-	persID = 1000
+
 	if params["newFirstName"] != nil && params["newFirstName"] != ""
 		if (params["newFirstName"].count " ") == 0 # no " " in surName
 			if (params["newFirstName"] =~/[[:upper:]]/) == 0
-				sql = "update DIRECTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{persID}"
+				sql = "update DIRECTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{params["PersID"]}"
 				client.query(sql)
 				return MultiJson.dump({:edited => true})
 			else
@@ -397,7 +397,7 @@ post '/api/v1/editDirector' do
 	if params["newSurName"] != nil && params["newSurName"] != ""
 		if (params["newSurName"].count " ") == 0 # no " " in surName
 			if (params["newSurName"] =~/[[:upper:]]/) == 0
-				sql = "update DIRECTOR set Surname = '#{params["newSurName"]}' where PersID = #{persID}"
+				sql = "update DIRECTOR set Surname = '#{params["newSurName"]}' where PersID = #{params["PersID"]}"
 				client.query(sql)
 				return MultiJson.dump({:edited => true})
 			else
@@ -425,7 +425,7 @@ post '/api/v1/editDirector' do
 		end
 		
 		if validPlaceOfBirth
-			sql = "update DIRECTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = #{persID}"
+			sql = "update DIRECTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
 			return MultiJson.dump({:edited => true})
 		end
@@ -457,7 +457,7 @@ post '/api/v1/editDirector' do
 			return MultiJson.dump({:edited => false})
 		end
 		if validBirthdate
-			sql = "update DIRECTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = #{persID}"
+			sql = "update DIRECTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
 			return MultiJson.dump({:edited => true})
 		end
@@ -465,7 +465,7 @@ post '/api/v1/editDirector' do
 	
 	if params["newGender"] && params["newGender"]
 		if params["newGender"] == "m" || params["newGender"] == "w"
-			sql = "update DIRECTOR set Gender = '#{params["newGender"]}' where PersID = #{persID}"
+			sql = "update DIRECTOR set Gender = '#{params["newGender"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
 			return MultiJson.dump({:edited => true})
 		else
@@ -607,30 +607,36 @@ post '/api/v1/createActor' do
 end
 
 post '/api/v1/editActor' do
-	persID = 1000
+
 	if params["newFirstName"] != nil && params["newFirstName"] != ""
 		if (params["newFirstName"].count " ") == 0 # no " " in surName
 			if (params["newFirstName"] =~/[[:upper:]]/) == 0
-				sql = "update ACTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{persID}"
+				sql = "update ACTOR set Firstname = '#{params["newFirstName"]}' where PersID = #{params["PersID"]}"
 				client.query(sql)
+				return MultiJson.dump({:edited => true})
 			else
 				puts "firstName must start with upper case"
+				return MultiJson.dump({:edited => false})
 			end
 		else
 			puts "only one firstName"
+			return MultiJson.dump({:edited => false})
 		end
 	end
 	
 	if params["newSurName"] != nil && params["newSurName"] != ""
 		if (params["newSurName"].count " ") == 0 # no " " in surName
 			if (params["newSurName"] =~/[[:upper:]]/) == 0
-				sql = "update ACTOR set Surname = '#{params["newSurName"]}' where PersID =  #{persID}"
+				sql = "update ACTOR set Surname = '#{params["newSurName"]}' where PersID = #{params["PersID"]}"
 				client.query(sql)
+				return MultiJson.dump({:edited => true})
 			else
 				puts "surName must start with upper case"
+				return MultiJson.dump({:edited => false})
 			end
 		else
 			puts "only one surName"
+			return MultiJson.dump({:edited => false})
 		end
 	end
 	
@@ -639,16 +645,19 @@ post '/api/v1/editActor' do
 		if (params["newPlaceOfBirth"] =~ /[[:upper:]]/) != 0 # no upper case character in PlaceOfBirth[0]
 			puts "placeOfBirth must start with an upper case"
 			validPlaceOfBirth = false
+			return MultiJson.dump({:edited => false})
 		end
 		
 		if (params["newplaceOfBirth"] =~ /[[:digit:]]/) != nil # no digit in PlaceOfBirth
 			puts "only Characters in placeOfBirth"
 			validPlaceOfBirth = false
+			return MultiJson.dump({:edited => false})
 		end
 		
 		if validPlaceOfBirth
-			sql = "update ACTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID =  #{persID}"
+			sql = "update ACTOR set PlaceOfBirth = '#{params["newplaceOfBirth"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
+			return MultiJson.dump({:edited => true})
 		end
 	end
 	
@@ -663,28 +672,35 @@ post '/api/v1/editActor' do
 					if day > 31	
 						puts "no valid day"
 						validBirthdate = false
+						return MultiJson.dump({:edited => false})
 					end
 					puts "no valid month"
 					validBirthdate = false
+					return MultiJson.dump({:edited => false})
 				end
 				puts "no valid year"
 				validBirthdate = false
+				return MultiJson.dump({:edited => false})
 			end
 			puts "no valid newBirthdate pattern"
 			validBirthdate = false
+			return MultiJson.dump({:edited => false})
 		end
 		if validBirthdate
-			sql = "update ACTOR set Birthdate = '#{params["newBirthdate"]}' where PersID =  '#{persID}'"
+			sql = "update ACTOR set Birthdate = '#{params["newBirthdate"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
+			return MultiJson.dump({:edited => true})
 		end
 	end
 	
 	if params["newGender"] && params["newGender"]
 		if params["newGender"] == "m" || params["newGender"] == "w"
-			sql = "update ACTOR set Gender = '#{params["newGender"]}' where PersID =  #{persID}"
+			sql = "update ACTOR set Gender = '#{params["newGender"]}' where PersID = #{params["PersID"]}"
 			client.query(sql)
+			return MultiJson.dump({:edited => true})
 		else
 			puts "only 'm' or 'w'"
+			return MultiJson.dump({:edited => false})
 		end
 	end
 end

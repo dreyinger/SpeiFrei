@@ -14,7 +14,10 @@ App.ActorController = Ember.Controller.extend({
 				console.log(data);
 			}
 			});
-			
+		},
+		editActor: function () {
+			var data = Ember.get(this, 'model');
+			this.transitionToRoute('/editActor/' + data.PersID);
 		}
 	}
 	
