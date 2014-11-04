@@ -1,7 +1,7 @@
 App.EditStudioController = Ember.Controller.extend({
 	model: {},
 	actions: {
-	submitEditStudio: function() {
+		submitEditStudio: function() {
 			var self = this;
 			var data = Ember.get(this, 'model');
 			Ember.$.post('/api/v1/editStudio', data).done(function(data) {

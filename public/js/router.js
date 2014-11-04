@@ -6,7 +6,7 @@ App.Router.map(function () {
   this.resource('studios', {path: '/studios'});
   this.resource('studio', {path: '/studio/:studio_id'});
   this.resource('actors', {path: '/actors'});
-    this.resource('actor', {path: '/actor/:persID'});
+  this.resource('actor', {path: '/actor/:persID'});
 	this.resource('directors', {path: '/directors'});
 	this.resource('createMovie', {path: '/createMovie'});
 	this.resource('deleteMovie', {path: '/deleteMovie'});	

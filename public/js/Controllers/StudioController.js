@@ -17,7 +17,7 @@ App.StudioController = Ember.Controller.extend({
 		},
 		editStudio: function () {
 			var data = Ember.get(this, 'model');
-			this.transitionToRoute('editStudio/'+data.StudioID);
+			this.transitionToRoute('/editStudio/' + data.StudioID);
 		}
 	}
 	
