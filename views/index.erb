@@ -37,6 +37,7 @@
     <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/AccountSettingsRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -202,6 +203,25 @@
         {{input value=params.birthdate placeholder="Birthdate (YYYY-MM-DD)"}}
         <button {{action 'postSignup'}}>signup</button>
         <div><a href="#" {{action 'signin'}}>Signin</a></div>
+      </div>
+    </script>
+	
+    <script type="text/x-handlebars" data-template-name="accountSettings">
+     <div class="content_head">
+	  	<h3>{{edited}}</h3>
+        <p>{{model.Email}}</p>
+		<a {{action 'editAccountSettings'}}>Edit</a>
+		<a {{action 'deleteAccount'}}>Delete</a>
+      </div>
+      <div class="accountSettings_container">
+        <table>
+          <tr>
+            <td>Surname: {{model.Surname}}</td>
+            <td>Firstname: {{model.Firstname}}</td>
+            <td>Birthdate: {{model.Birthdate}}</td>
+            <td>Gender: {{model.Gender}}</td>
+          </tr>
+        </table>
       </div>
     </script>
 
@@ -371,6 +391,10 @@
     <script type="text/x-handlebars" id="components/studio-container">
       <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
       <p>Headquarter: {{model.Headquarter}}</p>
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="accountSettings-container">
+      <h3>test</h3>
     </script>
   </body>
 </html>

@@ -935,6 +935,17 @@ post '/api/v1/editMovie' do
 
 end
 
+post '/api/v1/accountSettings' do
+	content_type :json
+	
+	sql = "select * from USER where Email = 'v.m@test.com'"
+	results = client.query(sql)
+	data = results.to_a
+	puts data
+
+	MultiJson.dump(data)
+end
+
 # post '/api/v1/movie' do
 # 	data = params
 # 	puts data

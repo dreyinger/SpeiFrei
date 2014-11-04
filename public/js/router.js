@@ -18,4 +18,5 @@ App.Router.map(function () {
 	this.resource('editActor', {path: '/editActor/:pers_id'});
 	this.resource('createStudio', {path: '/createStudio'});
 	this.resource('editStudio', {path: '/editStudio/:studio_id'});
+	this.resource('accountSettings', {path: '/accountSettings'});
 });
