@@ -5,8 +5,8 @@ require 'active_record'
 require 'thin'
 require 'multi_json'
 
-client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
+# client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -15,35 +15,30 @@ get '/' do
   erb :index
 end
 
-# post '/login.json' do
-# 	puts params
+get '/api/v1/user' do
+	puts params
 
-# 	sql = "select * from USER where Email = '#{params[:email]}'"
-# 	counter = 0
+	sql = "select Email from USER where Email = '#{params[:email]}' and Password = #{params[:password]};"
+	# counter = 0
 
-# 	results = client.query(sql, :as => :json)
-# 	puts results
-# 	results.map do |row|
-# 	  puts row
-# 	  counter += 1
-# 	end
-# 	if counter != 0
-# 		puts "yes"
-# 		return MultiJson.dump({:results => true})
-# 	else
-# 		puts "no"
-# 		return MultiJson.dump({:results => false})
-# 	end
-# end
+	results = client.query(sql, :as => :json)
+
+	data = results.to_a
+	# puts results
+	# results.map do |row|
+	#   puts row
+	#   counter += 1
+	# end
+
+	MultiJson.dump(data)
+end
 
 get '/api/v1/movies' do
 	content_type :json
 
-	sql = "select * from MOVIE"	
-	data = Array.new
+	sql = "select * from MOVIE"
 
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -53,7 +48,6 @@ get '/api/v1/studios' do
 	content_type :json
 
 	sql = "select * from STUDIO"	
-	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true)
 
@@ -66,10 +60,8 @@ get '/api/v1/actors' do
 	content_type :json
 
 	sql = "select * from ACTOR"	
-	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -79,10 +71,8 @@ get '/api/v1/directors' do
 	content_type :json
 
 	sql = "select * from DIRECTOR order by Surname"	
-	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -92,11 +82,8 @@ get '/api/v1/studio/:id' do
 	content_type :json
 	
 	sql = "select StudioID, Name from STUDIO where StudioID = #{params[:id]}"
-	data = Array.new
-
-	results = client.query(sql, :symbolize_keys => true).each do |row|
-	  data.push(row)
-	end
+	results = client.query(sql, :symbolize_keys => true)
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -105,10 +92,8 @@ get '/api/v1/actor/:id' do
 	content_type :json
 	
 	sql = "select * from ACTOR where PersID = #{params[:id]}"
-	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -118,10 +103,8 @@ get '/api/v1/director/:id' do
 	content_type :json
 	
 	sql = "select Firstname, Surname from DIRECTOR where PersID = #{params[:id]}"
-	data = Hash.new
 	
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -131,13 +114,30 @@ get '/api/v1/movie/:id' do
 	content_type :json
 	
 	sql = "select * from MOVIE where MovieID = #{params[:id]}"
-	data = Array.new
 
 	results = client.query(sql, :symbolize_keys => true)
-
 	data = results.to_a
 
 	MultiJson.dump(data)
+end
+
+post '/api/v1/createUser' do
+	sql = "INSERT INTO USER (Email, Password, Firstname, Surname"
+
+	params["birthdate"] ? (sql += ", Birthdate")
+	params["gender"] ? (sql += ", Gender")
+
+	sql += ") VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]}'"
+
+	params["birthdate"] ? (sql += ", #{params["birthdate"]}")
+	params["birthdate"] ? (sql += ", '#{params["gender"]}'")
+
+	sql += ")"
+
+	puts sql
+
+	# results = client.query(sql, :symbolize_keys => true)
+	# data = results.to_a
 end
 
 post '/api/v1/createMovie' do
@@ -246,7 +246,6 @@ post '/api/v1/createMovie' do
 	else
 		puts "no title"
 	end
-
 end
 
 post '/api/v1/createDirector' do
@@ -675,8 +674,7 @@ post '/api/v1/createStudio' do
 			sql = "update STUDIO set Headquarter = '#{params["headquarter"]}' where StudioID = #{studioID}"
 			client.query(sql)
 		end			
-	end
-	
+	end	
 end
 
 post '/api/v1/editStudio' do
@@ -688,6 +686,7 @@ post '/api/v1/editStudio' do
 		else
 			puts "name must start with upper case"
 		end
+	end
 	else
 		puts "only one name"
 	end
@@ -700,6 +699,7 @@ post '/api/v1/editStudio' do
 		else
 			puts "name must start with upper case"
 		end
+	end
 	else
 		puts "only one name"
 	end

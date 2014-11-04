@@ -1,4 +1,10 @@
 App.SelectDirectorRoute = Ember.Route.extend ({
+  renderTemplate: function () {
+    this.render('main');
+    this.render('selectDirector', {
+      into: 'main'
+    });
+  },
 	setupController: function (controller) {
     myself = controller;
     controller.set('model', []);

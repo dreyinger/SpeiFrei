@@ -19,7 +19,7 @@
     <script type="text/javascript" src="js/Routes/SigninRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
     <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
-	<script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
@@ -28,6 +28,7 @@
 	<script type="text/javascript" src="js/Routes/DeleteMovieRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
 
@@ -42,27 +43,35 @@
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
     <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
-	<script type="text/javascript" src="js/Controllers/DeleteMovieController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
-	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
-	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
+  	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
+  	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
+	<script type="text/javascript" src="js/Controllers/DeleteMovieController.js"></script>
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>    
 	
   </head>
   <body>
-    <script type="text/x-handlebars" data-template-name="application">
+    <script type="text/x-handlebars" data-template-name="main">
       <div class="header">
         <div class="navbar">
           <div class="navbar_inner">
-            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button action 'search'>P</button></div>
+            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button {{action 'search'}}>P</button></div>
             <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
             <div class="navbar_option" {{action 'directors'}}>Directors</div>
-            <div class="navbar_option" {{action 'signin'}}>Account</div>
+            <div class="navbar_option" {{action 'account'}}>
+              Account
+              {{#if showDrop}}
+                <table class="dropdown">
+                  <tr><td {{action 'accountSettings'}}>Settings</td></tr>
+                  <tr><td {{action 'logout'}}>Logout</td></tr>
+                </table>
+              {{/if}}
+            </div>
           </div>
         </div>
       </div>
@@ -120,15 +129,27 @@
     <script type="text/x-handlebars" data-template-name="signin">
       <div class="signin_container">
         <p>Please Sign in</p>
+        <p class="message error">{{message}}</p>
         {{input value=email placeholder="Email"}}
         {{input value=password placeholder="Password"}}
-        <button {{action 'print'}}>signin</button>
+        <button {{action 'postSignin'}}>signin</button>
         <div><a href="#" {{action 'signup'}}>Signup</a></div>
       </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="signup">
-      <p>This is the signup Route!</p>
+      <div class="signup_container">
+        <p>Signup in</p>
+        <p class="message error">{{message}}</p>
+        {{input value=params.email placeholder="Email"}}
+        {{input value=params.password placeholder="Password"}}
+        {{input value=params.firstname placeholder="Firstname"}}
+        {{input value=params.surname placeholder="Surname"}}
+        {{input value=params.gender placeholder="Gender"}}
+        {{input value=params.birthdate placeholder="Birthdate"}}
+        <button {{action 'postSignup'}}>signup</button>
+        <div><a href="#" {{action 'signin'}}>Signin</a></div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="studios">
@@ -230,7 +251,6 @@
         <button {{action 'submit_director'}}>submit</button>
       </div>
     </script>
-
 	
 	<script type="text/x-handlebars" data-template-name="editDirector">
       <div class="content_head">
