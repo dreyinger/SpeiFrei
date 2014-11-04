@@ -462,6 +462,19 @@ post '/api/v1/deleteDirector' do
 	end
 end
 
+post '/api/v1/deleteActor' do
+	sql = "select PersID from ACTOR where PersID = #{params[:PersID]}"
+	results = client.query(sql)
+	if results.to_a.length > 0
+		sql = "delete from ACTOR where PersID = #{params[:PersID]}"
+		results = client.query(sql)
+		return MultiJson.dump({:deleted => true})
+	else
+
+		return MultiJson.dump({:deleted => false})
+	end
+end
+
 post '/api/v1/createActor' do
 	alreadyInDB = true
 	validFirstName = false

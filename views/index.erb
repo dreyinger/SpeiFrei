@@ -28,12 +28,17 @@
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DeleteMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/ActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/DeleteActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
+
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -52,11 +57,13 @@
   	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/DeleteMovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
 
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
-	<script type="text/javascript" src="js/Components/DirectorComponent.js"></script>    
+    <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
+    <script type="text/javascript" src="js/Components/ActorComponent.js"></script>       
 	
   </head>
   <body>
@@ -187,10 +194,9 @@
       <div class="content_head">
         <p>Actors</p>
 		<a {{action 'createActor'}}>Add</a>
-		<a {{action 'editActor'}}>Edit</a>
       </div>
       {{#each model}}
-        {{actor-container model=this}}
+        {{actor-container action="goToActor" model=this}}
       {{/each}}
     </script>
 	
@@ -206,18 +212,18 @@
       </div>
     </script>
 	
-    <script type="text/x-handlebars" data-template-name="actor">
+	<script type="text/x-handlebars" data-template-name="actor">
       <div class="content_head">
 	  	<h1>{{deleted}}</h1>
         <p>{{model.Firstname}} {{model.Surname}}</p>
-		<a {{action 'editMovie'}}>Edit</a>
+		<a {{action 'editActor'}}>Edit</a>
 		<a {{action 'delete_actor'}}>Delete</a>
       </div>
-      <div class="movie_container">
+      <div class="actor_container">
         <table>
           <tr>
-            <td>Birthdate: {{model.birthdate}}</td>
-			<td>Gender: {{model.gender}}</td>
+            <td>Birthdate: {{model.Birthdate}}</td>
+            <td>Gender: {{model.Gender}}</td>
           </tr>
         </table>
       </div>
@@ -321,7 +327,7 @@
     </script>
 
     <script type="text/x-handlebars" id="components/actor-container">
-      <h3>{{model.Firstname}} {{model.Surname}}:</h3>
+      <h3><a {{action 'goToActor'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
       <p>Place of birth: {{model.PlaceOfBirth}}</p>
   	  <p>Birthdate: {{model.Birthdate}}</p>
   	  <p>Gender: {{model.Gender}}</p>
