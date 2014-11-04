@@ -132,8 +132,11 @@
             <td>Studio: {{studioName}}</td>
           </tr>
         </table>
-        <hr>
         <div>
+          <h3>Actors:</h3>
+          {{#each actors}}
+            <p><a {{action 'goToActor' this.PersID}}>Name: {{Firstname}} {{Surname}}</a></p>
+          {{/each}}
         <div>
         <hr>
         <div class="rating">

@@ -87,7 +87,7 @@ end
 get '/api/v1/actorsForMovie' do
 	content_type :json
 
-	sql = "select A_PersID, M_MovieID from ACTSIN WHERE A_MovieID"
+	sql = "SELECT a.* FROM ACTSIN am, ACTOR a, MOVIE m WHERE m.MovieID = '#{params[:movieId]}' AND m.MovieID = am.M_MovieID AND am.A_PersID = a.PersID"
 
 	results = client.query(sql)
 	data = results.to_a

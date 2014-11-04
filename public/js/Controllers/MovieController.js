@@ -18,6 +18,9 @@ App.MovieController = Ember.Controller.extend({
 		} else {
 			Ember.set(self, "directorName", "unknown");
 		}
+		Ember.$.get('/api/v1/actorsForMovie', {movieId: Ember.get(self, 'model.MovieID')}).done(function (data) {
+			Ember.set(self, 'actors', data);
+		});
 	}.observes('model'),
 	ratingObserver: function (obj, attr) {
 		var self = this;
@@ -50,6 +53,9 @@ App.MovieController = Ember.Controller.extend({
 				}
 			});
 		
+		},
+		goToActor: function (data) {
+			this.transitionToRoute('/actor/' + data);
 		}
 	}
 });
