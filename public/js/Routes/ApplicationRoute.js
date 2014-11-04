@@ -18,6 +18,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		directors: function () {
 			this.transitionTo('directors');
 		},
+		editMovie: function () {
+			this.transitionTo('editMovie');
+		},
 		createMovie: function () {
 			this.transitionTo('createMovie');
 		},

@@ -23,11 +23,11 @@
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
+	<script type="text/javascript" src="js/Routes/DeleteMovieRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
-	<script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
 	<script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
 
@@ -42,9 +42,9 @@
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
     <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
+	<script type="text/javascript" src="js/Controllers/DeleteMovieController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
-	<script type="text/javascript" src="js/Controllers/SelectDirectorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
 	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
 	
@@ -57,7 +57,7 @@
       <div class="header">
         <div class="navbar">
           <div class="navbar_inner">
-            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button>P</button></div>
+            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button action 'search'>P</button></div>
             <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
@@ -95,7 +95,11 @@
 
     <script type="text/x-handlebars" data-template-name="movie">
       <div class="content_head">
+	  	<h1>{{deleted}}</h1>
         <p>{{model.Title}}</p>
+		<a {{action 'editMovie'}}>Edit</a>
+		<a {{action 'delete_movie'}}>Delete</a>
+
       </div>
       <div class="movie_container">
         <table>
@@ -226,18 +230,7 @@
         <button {{action 'submit_director'}}>submit</button>
       </div>
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="selectDirector">
-      <div class="content_head">
-        <p>Select the Director you want to edit</p>
-		{{input value=model.persID placeholder="ID of Director"}}
-		<button {{action 'editDirector'}}>edit</button>
-		<h1>Directors</h1>
-		</div>
-	    {{#each model}}
-			{{director-container-all model=this}}
-		{{/each}}
-    </script>
+
 	
 	<script type="text/x-handlebars" data-template-name="editDirector">
       <div class="content_head">

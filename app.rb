@@ -685,24 +685,48 @@ post '/api/v1/editStudio' do
 		if (params["newStudioID"] =~/[[:upper:]]/) == 0
 				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{studioID}"
 				client.query(sql)
-			else
-				puts "name must start with upper case"
-			end
 		else
-			puts "only one name"
+			puts "name must start with upper case"
 		end
+	else
+		puts "only one name"
 	end
+
 	
 	if params["newHeadquarter"] != nil && params["newHeadquarter"] != ""
 		if (params["newHeadquarter"] =~/[[:upper:]]/) == 0
-				sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{studioID}"
-				client.query(sql)
-			else
-				puts "name must start with upper case"
-			end
+			sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{studioID}"
+			client.query(sql)
 		else
-			puts "only one name"
+			puts "name must start with upper case"
 		end
+	else
+		puts "only one name"
+	end
+end
+
+post '/api/v1/deleteMovie' do
+	sql = "select MovieID from MOVIE where MovieID = #{params[:MovieID]}"
+	results = client.query(sql)
+	if results.to_a.length > 0
+		sql = "delete from MOVIE where MovieID = #{params[:MovieID]}"
+		results = client.query(sql)
+		return MultiJson.dump({:deleted => true})
+	else
+
+		return MultiJson.dump({:deleted => false})
+	end
+end
+
+post '/api/v1/deleteStudio' do
+	sql = "select StudioID from STUDIO where StudioID = #{params[:StudioID]}"
+	results = client.query(sql)
+	if results.to_a.length > 0
+		sql = "delete from STUDIO where StudioID = #{params[StudioID]}"
+		results = client.query(sql)
+		return MultiJson.dump({:deleted => true})
+	else
+		return MultiJson.dump({:deleted => false})
 	end
 end
 	

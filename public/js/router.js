@@ -8,11 +8,13 @@ App.Router.map(function () {
   this.resource('actors', {path: '/actors'});
 	this.resource('directors', {path: '/directors'});
 	this.resource('createMovie', {path: '/createMovie'});
-	this.resource('createDirector', {path: '/createDirector'});
+	this.resource('deleteMovie', {path: '/deleteMovie'});	
+	this.resource('editMovie', {path: '/editMovie'});
 	this.resource('editDirector', {path: '/editDirector'});
 	this.resource('selectDirector', {path: '/selectDirector'});
 	this.resource('createActor', {path: '/createActor'});
 	this.resource('editActor', {path: '/editActor'});
 	this.resource('createStudio', {path: '/createStudio'});
 	this.resource('editStudio', {path: '/editStudio'});
+	this.resource('studio', {path: '/studio'});
 });
