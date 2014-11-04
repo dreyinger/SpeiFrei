@@ -5,8 +5,8 @@ require 'active_record'
 require 'thin'
 require 'multi_json'
 
-# client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
+client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -449,8 +449,17 @@ post '/api/v1/editDirector' do
 	end
 end
 
-post '/api/v1/selectDirector' do
-	puts "test"
+post '/api/v1/deleteActor' do
+	sql = "select PersID from ACTOR where PersID = #{params[:PersID]}"
+	results = client.query(sql)
+	if results.to_a.length > 0
+		sql = "delete from ACTOR where PersID = #{params[:PersID]}"
+		results = client.query(sql)
+		return MultiJson.dump({:deleted => true})
+	else
+
+		return MultiJson.dump({:deleted => false})
+	end
 end
 
 post '/api/v1/createActor' do

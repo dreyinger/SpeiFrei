@@ -5,6 +5,9 @@ App.ActorsController = Ember.Controller.extend({
 		},
 		editActor: function () {
 			this.transitionToRoute('editActor');
+		},
+		goToActor: function (param) {
+			this.transitionToRoute('/actor/' + param);
 		}
 	}
 });
