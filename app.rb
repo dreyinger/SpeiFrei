@@ -6,7 +6,6 @@ require 'thin'
 require 'multi_json'
 
 client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -199,7 +198,7 @@ post '/api/v1/createMovie' do
 													directorFirstName = params["directorFirstName"].capitalize
 													directorSurName = params["directorSurName"].capitalize
 													sql = "INSERT INTO DIRECTOR (Firstname, Surname) VALUES ('#{directorFirstName}', '#{directorSurName}')"
-													#post = client.query(sql)
+													post = client.query(sql)
 													sql = "select PersID from DIRECTOR where Firstname = '#{directorFirstName}' and Surname = '#{directorSurName}'"
 													results = client.query(sql)
 												end
@@ -211,7 +210,7 @@ post '/api/v1/createMovie' do
 											end
 
 											sql = "INSERT INTO MOVIE (Title, ReleaseDate, Genre, Mood, Duration, AgeRating, D_PersID, StudioID) VALUES ('#{data["title"]}', '#{data["releaseDate"]}', '#{data["genre"]}', '#{data["mood"]}', '#{data["duration"]}', '#{data["ageRating"]}', '#{data["D_PersID"]}', '#{data["StudioID"]}')"
-											#post = client.query(sql)
+											post = client.query(sql)
 										else
 											puts "Movie already in DB"
 										end

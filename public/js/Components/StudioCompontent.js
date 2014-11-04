@@ -1,4 +1,4 @@
-App.MovieContainerComponent = Ember.Component.extend({
+App.StudioContainerComponent = Ember.Component.extend({
 	// willInsertElement: function() {
 	// 	var self = this;
 	// 	var studioId = self.get('model').StudioID;
