@@ -102,7 +102,7 @@ end
 get '/api/v1/director/:id' do
 	content_type :json
 	
-	sql = "select Firstname, Surname from DIRECTOR where PersID = #{params[:id]}"
+	sql = "select * from DIRECTOR where PersID = #{params[:id]}"
 	
 	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
