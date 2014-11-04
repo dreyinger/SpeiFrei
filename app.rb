@@ -208,7 +208,6 @@ post '/api/v1/createMovie' do
 												data.delete("directorFirstName") # warum?
 												data.delete("directorSurName") # warum?
 											end
-
 											sql = "INSERT INTO MOVIE (Title, ReleaseDate, Genre, Mood, Duration, AgeRating, D_PersID, StudioID) VALUES ('#{data["title"]}', '#{data["releaseDate"]}', '#{data["genre"]}', '#{data["mood"]}', '#{data["duration"]}', '#{data["ageRating"]}', '#{data["D_PersID"]}', '#{data["StudioID"]}')"
 											post = client.query(sql)
 										else
