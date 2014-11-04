@@ -150,8 +150,8 @@
         {{input value=params.password placeholder="Password"}}
         {{input value=params.firstname placeholder="Firstname"}}
         {{input value=params.surname placeholder="Surname"}}
-        {{input value=params.gender placeholder="Gender"}}
-        {{input value=params.birthdate placeholder="Birthdate"}}
+        {{input value=params.gender placeholder="Gender (m/f)"}}
+        {{input value=params.birthdate placeholder="Birthdate (YYYY-MM-DD)"}}
         <button {{action 'postSignup'}}>signup</button>
         <div><a href="#" {{action 'signin'}}>Signin</a></div>
       </div>
@@ -187,8 +187,8 @@
     <script type="text/x-handlebars" data-template-name="actors">
       <div class="content_head">
         <p>Actors</p>
-		<a {{action 'createActor'}}>Add</a>
-		<a {{action 'editActor'}}>Edit</a>
+    		<a {{action 'createActor'}}>Add</a>
+    		<a {{action 'editActor'}}>Edit</a>
       </div>
       {{#each model}}
         {{actor-container model=this}}
