@@ -5,6 +5,7 @@ App.EditStudioController = Ember.Controller.extend({
 			var self = this;
 			var data = Ember.get(this, 'model');
 			Ember.$.post('/api/v1/editStudio', data).done(function(data) {
+			data = JSON.parse(data);
 			if (data.edited) {
 				Ember.set(self, 'edited', 'You have edited this Studio');
 				console.log(data);

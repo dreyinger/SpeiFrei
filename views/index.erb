@@ -114,7 +114,7 @@
 
     <script type="text/x-handlebars" data-template-name="movie">
       <div class="content_head">
-	  	<h1>{{deleted}}</h1>
+	  	<h3>{{deleted}}</h3>
         <p>{{model.Title}}</p>
 		    <a {{action 'editMovie'}}>Edit</a>
 		    <a {{action 'delete_movie'}}>Delete</a>
@@ -181,7 +181,7 @@
 	
 	<script type="text/x-handlebars" data-template-name="studio">
       <div class="content_head">
-	  	<h1>{{deleted}}</h1>
+	  	<h3>{{deleted}}</h3>
         <p>{{model.Name}}</p>
 		<a {{action 'editStudio'}}>Edit</a>
 		<a {{action 'deleteStudio'}}>Delete</a>
@@ -205,7 +205,7 @@
 	
 	<script type="text/x-handlebars" data-template-name="editStudio">
       <div class="content_head">
-	    <h1>{{edited}}</h1>
+	    <h3>{{edited}}</h3>
         <p>Edit the Studio</p>
 		{{input value=model.newName placeholder="Name"}}
 		{{input value=model.newHeadquarter placeholder="Headquarter"}}
@@ -236,7 +236,7 @@
 	
 	<script type="text/x-handlebars" data-template-name="actor">
       <div class="content_head">
-	  	<h1>{{deleted}}</h1>
+	  	<h3>{{deleted}}</h3>
         <p>{{model.Firstname}} {{model.Surname}}</p>
 		<a {{action 'editActor'}}>Edit</a>
 		<a {{action 'delete_actor'}}>Delete</a>
@@ -282,7 +282,6 @@
       <div class="content_head">
         <p>Directors</p>
 		<a {{action 'createDirector'}}>Add</a>
-		<a {{action 'editDirector'}}>Edit</a>
       </div>
       {{#each model}}
         {{director-container action='goToDirector' model=this}}
@@ -303,9 +302,9 @@
 	
     <script type="text/x-handlebars" data-template-name="director">
       <div class="content_head">
-	  	<h1>{{deleted}}</h1>
+	  	<h3>{{deleted}}</h3>
         <p>{{model.Firstname}} {{model.Surname}}</p>
-		<a {{action 'editMovie'}}>Edit</a>
+		<a {{action 'editDirector'}}>Edit</a>
 		<a {{action 'delete_director'}}>Delete</a>
       </div>
       <div class="director_container">
@@ -321,13 +320,14 @@
 	
 	<script type="text/x-handlebars" data-template-name="editDirector">
       <div class="content_head">
+	  <h3>{{edited}}</h3>
         <p>Edit Director</p>
         {{input value=model.newFirstName placeholder="new Firstname"}}
 		{{input value=model.newSurName placeholder="new Surname"}}
 		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
 		{{input value=model.newBirthdate placeholder="new Birthdate"}}
 		{{input value=model.newGender placeholder="new Gender"}}
-		<button {{action 'edit_director'}}>edit</button>
+		<button {{action 'submitEditDirector'}}>edit</button>
     </script>
 	
     <script type="text/x-handlebars" id="components/movie-container">

@@ -14,7 +14,10 @@ App.DirectorController = Ember.Controller.extend({
 				console.log(data);
 			}
 			});
-			
+		},
+		editDirector: function () {
+			var data = Ember.get(this, 'model');
+			this.transitionToRoute('/editDirector/' + data.PersID);
 		}
 	}
 	

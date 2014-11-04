@@ -5,9 +5,10 @@ App.EditDirectorRoute = Ember.Route.extend ({
       into: 'main'
     });
   },
-	setupController: function (controller) {
-    myself = controller;
-    controller.set('model', []);
-  }
-
+	model: function (params) {
+		var self = this;
+		Ember.$.get("/api/v1/director/" + params.pers_id).done(function (data) {
+			Ember.set(self.controllerFor("editDirector"), 'model', data[0]);
+		});
+	}
 });
