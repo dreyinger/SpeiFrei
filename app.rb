@@ -1,12 +1,31 @@
 require 'rubygems'
 require 'sinatra'
 require 'mysql2'
-require 'active_record'
 require 'thin'
 require 'multi_json'
 
-#client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
+# client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+
+class Clients
+	def initialize()
+    @clients = [Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')]
+		@clientCount = 0
+  end
+
+	def getClient()
+		@client = @clients[@clientCount]
+		@clientCount = (@clientCount + 1) % 4
+		puts @clientCount
+
+		@client
+	end
+end
+
+clients = Clients.new
+#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -17,6 +36,8 @@ end
 
 get '/api/v1/user' do
 	sql = "select Email from USER where Email = '#{params[:email]}' and Password = '#{params[:password]}'"
+
+	client = clients.getClient
 
 	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
@@ -30,6 +51,9 @@ get '/api/v1/movies' do
 	content_type :json
 
 	sql = "select * from MOVIE"
+
+	client = clients.getClient
+	puts client
 
 	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
