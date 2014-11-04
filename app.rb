@@ -699,7 +699,8 @@ post '/api/v1/createStudio' do
 end
 
 post '/api/v1/editStudio' do
-
+puts params["studioID"]
+puts "test"
 	if params["newName"] != nil && params["newName"] != ""
 		if (params["newName"] =~/[[:upper:]]/) == 0
 				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{params["studioID"]}"
