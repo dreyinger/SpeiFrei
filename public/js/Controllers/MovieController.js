@@ -19,6 +19,23 @@ App.MovieController = Ember.Controller.extend({
 			Ember.set(self, "directorName", "unknown");
 		}
 	}.observes('model'),
+	ratingObserver: function (obj, attr) {
+		var self = this;
+		val = Ember.get(obj, attr);
+		if (val) {
+			Ember.$.post('/api/v1/rating', {rating: val, movieId: Ember.get(obj, 'model.MovieID')}).done(function (data) {
+				data = JSON.parse(data);
+				Ember.set(self, 'model.AvgRating', data.newRating);
+			});
+		}
+	}.observes('selectedValue'),
+	ratings: [
+		{label: "1 Star", value: 1},
+		{label: "2 Star", value: 2},
+		{label: "3 Star", value: 3},
+		{label: "4 Star", value: 4},
+		{label: "5 Star", value: 5}
+	],
 	actions: {
 		delete_movie: function () {
 			var self = this;

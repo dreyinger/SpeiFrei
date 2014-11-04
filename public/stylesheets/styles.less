@@ -162,7 +162,10 @@ body {
 }
 
 .movie_container {
-	.component_container;
+	display: -webkit-flex;
+	display: -moz-flex;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
 
 	td:not(:last-child) {
 		border-right: 1px solid black;

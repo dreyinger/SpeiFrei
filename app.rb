@@ -84,6 +84,17 @@ get '/api/v1/actors' do
 	MultiJson.dump(data)
 end
 
+get '/api/v1/actorsForMovie' do
+	content_type :json
+
+	sql = "select A_PersID, M_MovieID from ACTSIN WHERE A_MovieID"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
 get '/api/v1/directors' do
 	content_type :json
 
@@ -768,6 +779,21 @@ post '/api/v1/deleteStudio' do
 		return MultiJson.dump({:deleted => false})
 	end
 end
+
+post '/api/v1/rating' do
+	sql = "SELECT AvgRating, RatingCount FROM MOVIE WHERE MovieID = '#{params[:movieId]}'"
+	result = client.query(sql).to_a[0]
+	oldRating = result[:AvgRating] ? result[:AvgRating] : 0.0
+	ratingCount = result[:RatingCount] ? result[:RatingCount] : 0
+
+	newRating = ((oldRating * ratingCount + params[:rating].to_i)/(ratingCount += 1)).round(2)
+
+	sql = "UPDATE MOVIE SET AvgRating = #{newRating}, RatingCount = #{ratingCount} WHERE MovieId = #{params[:movieId]}"
+	client.query(sql)
+
+	MultiJson.dump({:newRating => newRating})
+end
+
 	
 # post '/api/v1/movie' do
 # 	data = params

@@ -132,14 +132,14 @@
             <td>Studio: {{studioName}}</td>
           </tr>
         </table>
-
-        <select name="select">
-          <option value=1>1</option> 
-          <option value=2>2</option>
-          <option value=3>3</option>
-          <option value=4>4</option>
-          <option value=5>5</option>
-        </select>
+        <hr>
+        <div>
+        <div>
+        <hr>
+        <div class="rating">
+          Please rate this movie: 
+          {{view Ember.Select content=ratings value=selectedValue prompt="Choose a rating:" optionValuePath="content.value" optionLabelPath="content.label"}}
+        </div>
       </div>
     </script>
 
@@ -148,7 +148,7 @@
         <p>Please Sign in</p>
         <p class="message error">{{message}}</p>
         {{input value=email placeholder="Email"}}
-        {{input value=password placeholder="Password"}}
+        {{input value=password type='password' placeholder="Password"}}
         <button {{action 'postSignin'}}>signin</button>
         <div><a href="#" {{action 'signup'}}>Signup</a></div>
       </div>
@@ -159,7 +159,7 @@
         <p>Signup in</p>
         <p class="message error">{{message}}</p>
         {{input value=params.email placeholder="Email"}}
-        {{input value=params.password placeholder="Password"}}
+        {{input value=params.password type='password' placeholder="Password"}}
         {{input value=params.firstname placeholder="Firstname"}}
         {{input value=params.surname placeholder="Surname"}}
         {{input value=params.gender placeholder="Gender (m/f)"}}
