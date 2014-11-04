@@ -54,6 +54,7 @@
   	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/EditStudioController.js"></script>
 
 	
     <!-- Components -->
@@ -175,8 +176,8 @@
       <div class="content_head">
 	  	<h1>{{deleted}}</h1>
         <p>{{model.Name}}</p>
-		<a {{action 'editActor'}}>Edit</a>
-		<a {{action 'delete_studio'}}>Delete</a>
+		<a {{action 'editStudio'}}>Edit</a>
+		<a {{action 'deleteStudio'}}>Delete</a>
       </div>
       <div class="studio_container">
         <table>
@@ -197,10 +198,11 @@
 	
 	<script type="text/x-handlebars" data-template-name="editStudio">
       <div class="content_head">
-        <p>Edit a Studio</p>
+	    <h1>{{edited}}</h1>
+        <p>Edit the Studio</p>
 		{{input value=model.newName placeholder="Name"}}
 		{{input value=model.newHeadquarter placeholder="Headquarter"}}
-		<button {{action 'edit_studio'}}>edit</button>
+		<button {{action 'submitEditStudio'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="actors">

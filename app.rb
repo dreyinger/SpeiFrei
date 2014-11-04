@@ -5,8 +5,8 @@ require 'active_record'
 require 'thin'
 require 'multi_json'
 
-#client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
-client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
+client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -699,28 +699,25 @@ post '/api/v1/createStudio' do
 end
 
 post '/api/v1/editStudio' do
-	studioID = 1000
-	if params["newStudioID"] != nil && params["newStudioID"] != ""
-		if (params["newStudioID"] =~/[[:upper:]]/) == 0
-				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{studioID}"
+
+	if params["newName"] != nil && params["newName"] != ""
+		if (params["newName"] =~/[[:upper:]]/) == 0
+				sql = "update STUDIO set Name = '#{params["newName"]}' where StudioID = #{params["studioID"]}"
 				client.query(sql)
 		else
 			puts "name must start with upper case"
 		end
-	else
-		puts "only one name"
 	end
+
 
 	
 	if params["newHeadquarter"] != nil && params["newHeadquarter"] != ""
 		if (params["newHeadquarter"] =~/[[:upper:]]/) == 0
-			sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{studioID}"
+			sql = "update STUDIO set Headquarter = '#{params["newHeadquarter"]}' where StudioID = #{params["studioID"]}"
 			client.query(sql)
 		else
 			puts "name must start with upper case"
 		end
-	else
-		puts "only one name"
 	end
 end
 

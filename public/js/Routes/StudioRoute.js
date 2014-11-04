@@ -1,5 +1,5 @@
 App.StudioRoute = Ember.Route.extend ({
-	renderTemplate: function () {
+  renderTemplate: function () {
     this.render('main');
     this.render('studio', {
       into: 'main'

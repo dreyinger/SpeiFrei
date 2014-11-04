@@ -1,6 +1,6 @@
 App.StudioController = Ember.Controller.extend({
 		actions: {
-		delete_studio: function () {
+		deleteStudio: function () {
 			var self = this;
 			var data = Ember.get(this, 'model');
 			Ember.$.post('/api/v1/deleteStudio', data).done(function(data) {
@@ -14,7 +14,10 @@ App.StudioController = Ember.Controller.extend({
 				console.log(data);
 			}
 			});
-			
+		},
+		editStudio: function () {
+			var data = Ember.get(this, 'model');
+			this.transitionToRoute('editStudio/'+data.StudioID);
 		}
 	}
 	

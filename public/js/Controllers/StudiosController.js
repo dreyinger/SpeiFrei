@@ -3,9 +3,6 @@ App.StudiosController = Ember.Controller.extend({
 		createStudio: function () {
 			this.transitionToRoute('createStudio');
 		},
-		editStudio: function () {
-			this.transitionToRoute('editStudio');
-		},
 		goToStudio: function (param) {
 			this.transitionToRoute('/studio/' + param);
 		}
