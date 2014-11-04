@@ -17,8 +17,7 @@ class Clients
 
 	def getClient()
 		@client = @clients[@clientCount]
-		@clientCount = (@clientCount + 1) % 4
-		puts @clientCount
+		@clientCount = (@clientCount + 1) % @clients.length
 
 		@client
 	end
