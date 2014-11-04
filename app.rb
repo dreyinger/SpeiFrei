@@ -1,11 +1,35 @@
 require 'rubygems'
 require 'sinatra'
 require 'mysql2'
-require 'active_record'
 require 'thin'
 require 'multi_json'
 
-client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+# client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+
+class Clients
+	def initialize()
+    @clients = [Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
+						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')]
+		@clientCount = 0
+  end
+
+	def getClient()
+		@client = @clients[@clientCount]
+		@clientCount = (@clientCount + 1) % @clients.length
+
+		@client
+	end
+
+	def query(sql)
+		client = getClient
+
+		results = client.query(sql, :symbolize_keys => true)
+	end
+end
+
+client = Clients.new
 #client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
@@ -18,7 +42,7 @@ end
 get '/api/v1/user' do
 	sql = "select Email from USER where Email = '#{params[:email]}' and Password = '#{params[:password]}'"
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	data.length == 1 ? data = {"auth" => true} : data = {"auth" => false}
@@ -31,7 +55,7 @@ get '/api/v1/movies' do
 
 	sql = "select * from MOVIE"
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -42,7 +66,7 @@ get '/api/v1/studios' do
 
 	sql = "select * from STUDIO"	
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 
 	data = results.to_a
 
@@ -54,7 +78,7 @@ get '/api/v1/actors' do
 
 	sql = "select * from ACTOR"	
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -65,7 +89,7 @@ get '/api/v1/directors' do
 
 	sql = "select * from DIRECTOR order by Surname"	
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -75,7 +99,7 @@ get '/api/v1/studio/:id' do
 	content_type :json
 	
 	sql = "select * from STUDIO where StudioID = #{params[:id]}"
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -86,7 +110,7 @@ get '/api/v1/actor/:id' do
 	
 	sql = "select * from ACTOR where PersID = #{params[:id]}"
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -97,7 +121,7 @@ get '/api/v1/director/:id' do
 	
 	sql = "select * from DIRECTOR where PersID = #{params[:id]}"
 	
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -108,7 +132,7 @@ get '/api/v1/movie/:id' do
 	
 	sql = "select * from MOVIE where MovieID = #{params[:id]}"
 
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	MultiJson.dump(data)
@@ -116,7 +140,7 @@ end
 
 post '/api/v1/createUser' do
 	sql = "select Email from USER where Email = '#{params["email"]}'"
-	results = client.query(sql, :symbolize_keys => true)
+	results = client.query(sql)
 	data = results.to_a
 
 	if data.length == 0
@@ -132,7 +156,7 @@ post '/api/v1/createUser' do
 
 		sql += ")"
 
-		results = client.query(sql, :symbolize_keys => true)
+		results = client.query(sql)
 		data = {:created => true}
 	else
 		data = {:created => false}
