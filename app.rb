@@ -804,7 +804,137 @@ post '/api/v1/deleteStudio' do
 		return MultiJson.dump({:deleted => false})
 	end
 end
+
+post '/api/v1/editMovie' do
+	if params["Title"] != nil && params["Title"] != ""
+		if (params["Title"] =~/[[:upper:]]/) == 0
+			sql = "update MOVIE set Title = '#{params["Title"]}' where MovieID = #{params["MovieID"]}"
+			client.query(sql)
+			return MultiJson.dump({:edited => true})
+		else
+			puts "Title must start with upper case"
+			return MultiJson.dump({:edited => false})
+		end
+	end
 	
+	if params["Studio"] && params["Studio"] != ""
+		if (params["Studio"] =~ /[[:digit:]]/) == 0 #only digits
+			sql = "update MOVIE set Studio = '#{params["Studio"]}' where MovieID = #{params["MovieID"]}"
+			client.query(sql)
+			return MultiJson.dump({:edited => true})
+		end
+	end
+	
+	if params["Genre"] && params["Genre"] != ""	
+		if (params["Genre"] =~ /[[:digit:]]/) != nil # no digit in Genre
+				sql = "update MOVIE set Genre = '#{params["Genre"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else				
+				puts "only Characters in Genre"
+				return MultiJson.dump({:edited => false})
+			end
+	end
+	
+	if params["Mood"] && params["Mood"] != ""	
+		if (params["Mood"] =~ /[[:digit:]]/) != nil # no digit in Mood
+				sql = "update MOVIE set Mood = '#{params["Mood"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else				
+				puts "only Characters in Mood"
+				return MultiJson.dump({:edited => false})
+			end
+	end
+	
+	if params["Duration"] && params["Duration"] != ""	
+		if (params["Duration"] =~ /[[:alpha:]]/) != nil # only digit in Duration
+				sql = "update MOVIE set Duration = '#{params["Duration"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else				
+				puts "only Digits in Duration"
+				return MultiJson.dump({:edited => false})
+			end
+	end
+	
+	if params["AgeRating"] && params["AgeRating"] != ""	
+		if (params["AgeRating"] =~ /[[:alpha:]]/) != nil # only digit in AgeRating
+				sql = "update MOVIE set AgeRating = '#{params["AgeRating"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else				
+				puts "only Digits in AgeRating"
+				return MultiJson.dump({:edited => false})
+			end
+	end
+	
+	if params["firstName"] && params["firstName"] != ""
+		if (params["firstName"].count " ") == 0 # no " " in surName
+			if (params["firstName"] =~ /[[:upper:]]/) == 0
+				sql = "update MOVIE set firstName = '#{params["firstName"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else
+				puts "firstName must start with upper case"
+				return MultiJson.dump({:edited => false})
+			end
+		else
+			puts "only one firstName"
+			return MultiJson.dump({:edited => false})
+		end
+	end
+	
+	if params["surName"] && params["surName"] != ""
+		if (params["surName"].count " ") == 0 # no " " in surName
+			if (params["surName"] =~ /[[:upper:]]/) == 0
+				sql = "update MOVIE set surName = '#{params["surName"]}' where MovieID = #{params["MovieID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else
+				puts "surName must start with upper case"
+				return MultiJson.dump({:edited => false})
+			end
+		else
+			puts "only one surName"
+			return MultiJson.dump({:edited => false})
+		end
+	end
+	
+	if params["ReleaseDate"] && params["ReleaseDate"] != ""
+		validBirthdate = true
+		if (params["ReleaseDate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+			year = params["ReleaseDate"][0,4].to_i
+			month = params["ReleaseDate"][5,2].to_i
+			day = params["ReleaseDate"][8,2].to_i
+			if year > Date.today.strftime("%Y").to_i
+				if month > 12
+					if day > 31	
+						puts "no valid day"
+						validBirthdate = false
+						return MultiJson.dump({:edited => false})
+					end
+					puts "no valid month"
+					validBirthdate = false
+					return MultiJson.dump({:edited => false})
+				end
+				puts "no valid year"
+				validBirthdate = false
+				return MultiJson.dump({:edited => false})
+			end
+			puts "no valid newBirthdate pattern"
+			validBirthdate = false
+			return MultiJson.dump({:edited => false})
+		end
+		if validBirthdate
+			sql = "update MOVIE set ReleaseDate = '#{params["ReleaseDate"]}' where MovieID = #{params["MovieID"]}"
+			client.query(sql)
+			return MultiJson.dump({:edited => true})
+		end
+	end
+
+end
+
 # post '/api/v1/movie' do
 # 	data = params
 # 	puts data

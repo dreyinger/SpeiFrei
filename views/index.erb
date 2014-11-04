@@ -18,49 +18,51 @@
     <script type="text/javascript" src="js/Routes/ApplicationRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SigninRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/StudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/StudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/EditMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
     <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
     <script type="text/javascript" src="js/Controllers/SignupController.js"></script>
-    <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
-    <script type="text/javascript" src="js/Controllers/CreateStudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
-    <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
-    <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateStudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
-    <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
-    <script type="text/javascript" src="js/Controllers/EditStudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/EditMovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
 
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
     <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
     <script type="text/javascript" src="js/Components/ActorComponent.js"></script>
-    <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
+    <script type="text/javascript" src="js/Components/MovieComponent.js"></script>
 	
   </head>
   <body>
@@ -129,10 +131,9 @@
             <td>Releasedate: {{model.ReleaseDate}}</td>
             <td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>
             <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
-            <td>Studio: {{studioName}}</td>
+            <td>Movie: {{studioName}}</td>
           </tr>
         </table>
-
         <select name="select">
           <option value=1>1</option> 
           <option value=2>2</option>
@@ -141,6 +142,39 @@
           <option value=5>5</option>
         </select>
       </div>
+    </script>
+	
+
+    <script type="text/x-handlebars" data-template-name="createMovie">
+      <div class="content_head">
+        <p>Create Movie</p>
+        {{input value=model.title placeholder="Title"}}
+        {{input value=model.releaseDate placeholder="Release Date"}}
+        {{input value=model.genre placeholder="Genre"}}
+        {{input value=model.mood placeholder="Mood"}}
+        {{input value=model.duration placeholder="Duration"}}
+        {{input value=model.ageRating placeholder="Age rating"}}
+        {{input value=model.directorFirstName placeholder="Director Firstname"}}
+        {{input value=model.directorSurName placeholder="Director Surname"}}
+        {{input value=model.studio placeholder="Movie"}}
+        <button {{action 'submit_movie'}}>submit</button>
+      </div>
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="editMovie">
+      <div class="content_head">
+	    <h3>{{edited}}</h3>
+        <p>Edit the Movie</p>
+        {{input value=model.title placeholder="Title"}}
+        {{input value=model.releaseDate placeholder="Release Date"}}
+        {{input value=model.genre placeholder="Genre"}}
+        {{input value=model.mood placeholder="Mood"}}
+        {{input value=model.duration placeholder="Duration"}}
+        {{input value=model.ageRating placeholder="Age rating"}}
+        {{input value=model.directorFirstName placeholder="Director Firstname"}}
+        {{input value=model.directorSurName placeholder="Director Surname"}}
+        {{input value=model.studio placeholder="Studio"}}
+		<button {{action 'submitEditMovie'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="signin">
@@ -194,23 +228,6 @@
         </table>
       </div>
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="createStudio">
-      <div class="content_head">
-        <p>Create a Studio</p>
-		{{input value=model.name placeholder="Name"}}
-		{{input value=model.headquarter placeholder="Headquarter"}}
-		<button {{action 'submit_studio'}}>submit</button>
-    </script>
-	
-	<script type="text/x-handlebars" data-template-name="editStudio">
-      <div class="content_head">
-	    <h3>{{edited}}</h3>
-        <p>Edit the Studio</p>
-		{{input value=model.newName placeholder="Name"}}
-		{{input value=model.newHeadquarter placeholder="Headquarter"}}
-		<button {{action 'submitEditStudio'}}>edit</button>
-    </script>
 
     <script type="text/x-handlebars" data-template-name="actors">
       <div class="content_head">
@@ -261,22 +278,6 @@
 		{{input value=model.newBirthdate placeholder="new Birthdate"}}
 		{{input value=model.newGender placeholder="new Gender"}}
 		<button {{action 'submitEditActor'}}>edit</button>
-    </script>
-
-    <script type="text/x-handlebars" data-template-name="createMovie">
-      <div class="content_head">
-        <p>Create Movie</p>
-        {{input value=model.title placeholder="Title"}}
-        {{input value=model.releaseDate placeholder="Release Date"}}
-        {{input value=model.genre placeholder="Genre"}}
-        {{input value=model.mood placeholder="Mood"}}
-        {{input value=model.duration placeholder="Duration"}}
-        {{input value=model.ageRating placeholder="Age rating"}}
-        {{input value=model.directorFirstName placeholder="Director Firstname"}}
-        {{input value=model.directorSurName placeholder="Director Surname"}}
-        {{input value=model.studio placeholder="Studio"}}
-        <button {{action 'submit_movie'}}>submit</button>
-      </div>
     </script>
 	
 	<script type="text/x-handlebars" data-template-name="directors">
