@@ -16,19 +16,15 @@ get '/' do
 end
 
 get '/api/v1/user' do
-	puts params
+	sql = "select Email from USER where Email = '#{params[:email]}' and Password = '#{params[:password]}'"
 
-	sql = "select Email from USER where Email = '#{params[:email]}' and Password = #{params[:password]};"
-	# counter = 0
-
-	results = client.query(sql, :as => :json)
-
+	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
-	# puts results
-	# results.map do |row|
-	#   puts row
-	#   counter += 1
-	# end
+
+	puts data
+	puts data.length
+
+	data.length == 1 ? data = {"auth" => true} : data = {"auth" => false}
 
 	MultiJson.dump(data)
 end
@@ -122,36 +118,30 @@ get '/api/v1/movie/:id' do
 end
 
 post '/api/v1/createUser' do
+	sql = "select Email from USER where Email = '#{params["email"]}'"
+	results = client.query(sql, :symbolize_keys => true)
+	data = results.to_a
 
-	sql = "INSERT INTO USER (Email, Password, Firstname, Surname) VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]})'"
-	client.query(sql)
-	
-	if params["birthdate"] == ''
-		sql = "update USER set Birthdate = '#{params["birthdate"]}' where Email = #{params[email]}"
-		client.query(sql)
+	if data.length == 0
+		sql = "INSERT INTO USER (Email, Password, Firstname, Surname"
+
+		params["birthdate"] ? (sql += ", Birthdate") : nil
+		params["gender"] ? (sql += ", Gender") : nil
+
+		sql += ") VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]}'"
+
+		params["birthdate"] ? (sql += ", '#{params["birthdate"]}'") : nil
+		params["gender"] ? (sql += ", '#{params["gender"]}'") : nil
+
+		sql += ")"
+
+		results = client.query(sql, :symbolize_keys => true)
+		data = {:created => true}
+	else
+		data = {:created => false}
 	end
-	
-	if params["gender"] == ''
-		sql = "update USER set Gender = '#{params["gender"]}' where Email = #{params[gender]}"
-		client.query(sql)
-	end
+	MultiJson.dump(data)
 end
-	#	sql = "INSERT INTO USER (Email, Password, Firstname, Surname"
-
-	#	params["birthdate"] ? (sql += ", Birthdate")
-	#	params["gender"] ? (sql += ", Gender")
-
-	#	sql += ") VALUES ('#{params["email"]}', '#{params["password"]}', '#{params["firstname"]}', '#{params["surname"]}'"
-
-	#	params["birthdate"] ? (sql += ", #{params["birthdate"]}")
-	#	params["birthdate"] ? (sql += ", '#{params["gender"]}'")
-
-	#	sql += ")"
-	# puts sql
-
-	# results = client.query(sql, :symbolize_keys => true)
-	# data = results.to_a
-#end
 
 post '/api/v1/createMovie' do
 	data = params

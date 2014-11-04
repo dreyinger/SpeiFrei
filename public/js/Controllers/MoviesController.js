@@ -1,13 +1,13 @@
 App.MoviesController = Ember.Controller.extend({
-	actions: {
+  actions: {
     goToMovie: function (param) {
-    	this.transitionToRoute('/movie/' + param);
+      this.transitionToRoute('/movie/' + param);
     },
     editMovie: function () {
-			this.transitionTo('editMovie');
-		},
+      this.transitionTo('editMovie');
+    },
     createMovie: function () {
-			this.transitionToRoute('createMovie');
-		}
+      this.transitionToRoute('createMovie');
+    }
   }
 });

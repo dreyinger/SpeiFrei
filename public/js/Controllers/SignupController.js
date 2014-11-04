@@ -6,7 +6,6 @@ App.SignupController = Ember.Controller.extend({
 			var self = this;
 			if (Ember.get(self, "params.email") && Ember.get(self, "params.password") && Ember.get(self, "params.firstname") && Ember.get(self, "params.surname")) {
 				var data = Ember.get(self, 'params')
-				console.log("data" + data);
 				Ember.$.post( '/api/v1/createUser', data).done(function (d) {
 					console.log(d);
 					// if (d) {

@@ -39,7 +39,6 @@
     <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
 
-
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
     <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
@@ -157,8 +156,8 @@
         {{input value=params.password placeholder="Password"}}
         {{input value=params.firstname placeholder="Firstname"}}
         {{input value=params.surname placeholder="Surname"}}
-        {{input value=params.gender placeholder="Gender"}}
-        {{input value=params.birthdate placeholder="Birthdate"}}
+        {{input value=params.gender placeholder="Gender (m/f)"}}
+        {{input value=params.birthdate placeholder="Birthdate (YYYY-MM-DD)"}}
         <button {{action 'postSignup'}}>signup</button>
         <div><a href="#" {{action 'signin'}}>Signin</a></div>
       </div>
@@ -170,7 +169,7 @@
 		<a {{action 'createStudio'}}>Add</a>
       </div>
       {{#each model}}
-        {{studio-container action 'goToActor' model=this}}
+        {{studio-container action='goToActor' model=this}}
       {{/each}}
     </script>
 	
