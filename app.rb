@@ -76,7 +76,7 @@ end
 get '/api/v1/studio/:id' do
 	content_type :json
 	
-	sql = "select StudioID, Name from STUDIO where StudioID = #{params[:id]}"
+	sql = "select * from STUDIO where StudioID = #{params[:id]}"
 	results = client.query(sql, :symbolize_keys => true)
 	data = results.to_a
 
@@ -743,7 +743,7 @@ post '/api/v1/deleteStudio' do
 	sql = "select StudioID from STUDIO where StudioID = #{params[:StudioID]}"
 	results = client.query(sql)
 	if results.to_a.length > 0
-		sql = "delete from STUDIO where StudioID = #{params[StudioID]}"
+		sql = "delete from STUDIO where StudioID = #{params[:StudioID]}"
 		results = client.query(sql)
 		return MultiJson.dump({:deleted => true})
 	else

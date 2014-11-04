@@ -5,6 +5,9 @@ App.StudiosController = Ember.Controller.extend({
 		},
 		editStudio: function () {
 			this.transitionToRoute('editStudio');
+		},
+		goToStudio: function (param) {
+			this.transitionToRoute('/studio/' + param);
 		}
 	}
 });

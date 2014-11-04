@@ -20,6 +20,7 @@
     <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
     <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/StudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
@@ -33,8 +34,6 @@
     <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SelectDirectorRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
 
     <!-- Controllers -->
@@ -54,12 +53,14 @@
   	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
   	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
 
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
     <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
     <script type="text/javascript" src="js/Components/ActorComponent.js"></script>
+    <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
 	
   </head>
   <body>
@@ -166,8 +167,24 @@
 		<a {{action 'createStudio'}}>Add</a>
       </div>
       {{#each model}}
-        {{studio-container action='goToActor' model=this}}
+        {{studio-container action='goToStudio' model=this}}
       {{/each}}
+    </script>
+	
+	<script type="text/x-handlebars" data-template-name="studio">
+      <div class="content_head">
+	  	<h1>{{deleted}}</h1>
+        <p>{{model.Name}}</p>
+		<a {{action 'editActor'}}>Edit</a>
+		<a {{action 'delete_studio'}}>Delete</a>
+      </div>
+      <div class="studio_container">
+        <table>
+          <tr>
+            <td>Headquarter: {{model.Headquarter}}</td>
+          </tr>
+        </table>
+      </div>
     </script>
 	
 	<script type="text/x-handlebars" data-template-name="createStudio">
@@ -337,19 +354,9 @@
 		  <p>Gender: {{model.Gender}}</p>
 		</div>
     </script>
-	
-	<script type="text/x-handlebars" id="components/director-container-all">
-    <div class="director_container">
-		<p>{{model.Firstname}} {{model.Surname}}:</p>
-		<p>ID: {{model.PersID}};</p>
-		<p>Place of birth: {{model.PlaceOfBirth}};</p>
-		<p>Birthdate: {{model.Birthdate}};</p>
-		<p>Gender: {{model.Gender}}</p>
-		</div>
-    </script>
 
     <script type="text/x-handlebars" id="components/studio-container">
-      <h3>{{model.Name}}:</h3>
+      <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
       <p>Headquarter: {{model.Headquarter}}</p>
     </script>
   </body>
