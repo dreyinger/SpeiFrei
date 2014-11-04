@@ -7,7 +7,7 @@ App.EditActorRoute = Ember.Route.extend ({
   },
 	model: function (params) {
 		var self = this;
-		Ember.$.get("/api/v1/actor/" + params.persID).done(function (data) {
+		Ember.$.get("/api/v1/actor/" + params.pers_id).done(function (data) {
 			Ember.set(self.controllerFor("editActor"), 'model', data[0]);
 		});
 	}

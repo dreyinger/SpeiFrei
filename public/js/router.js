@@ -15,7 +15,7 @@ App.Router.map(function () {
 	this.resource('editDirector', {path: '/editDirector/:pers_id'});
 	this.resource('director', {path: '/director/:persID'});
 	this.resource('createActor', {path: '/createActor'});
-	this.resource('editActor', {path: '/editActor/:persID'});
+	this.resource('editActor', {path: '/editActor/:pers_id'});
 	this.resource('createStudio', {path: '/createStudio'});
 	this.resource('editStudio', {path: '/editStudio/:studio_id'});
 });
