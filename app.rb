@@ -117,6 +117,17 @@ get '/api/v1/moviesForStudio' do
 	MultiJson.dump(data)
 end
 
+get '/api/v1/moviesForActor' do
+	content_type :json
+
+	sql = "SELECT m.Title, m.MovieID FROM ACTSIN am, ACTOR a, MOVIE m WHERE a.PersID = '#{params[:persId]}' AND a.PersID = am.A_PersID AND am.M_MovieID = m.MovieID"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
 get '/api/v1/directors' do
 	content_type :json
 

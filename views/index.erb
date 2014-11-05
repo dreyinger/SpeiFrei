@@ -92,14 +92,14 @@
           </div>
         </div>
       </div>
-      <div class="footer">
+      <!--<div class="footer">
         <div class="footer_inner">
           <div class="footer_option">Share</div>
           <div class="footer_option">Connect</div>
           <div class="footer_option">Sitemap</div>
           <div class="footer_option">Contact</div>
         </div>
-      </div>
+      </div>-->
     </script>
 
     <script type="text/x-handlebars" data-template-name="movies">
@@ -128,8 +128,8 @@
             <td>Mood: {{model.Mood}}</td>
             <td>Releasedate: {{model.ReleaseDate}}</td>
             <td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>
-            <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
-            <td>Studio: {{studioName}}</td>
+            <td><a {{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
+            <td><a {{action 'goToStudio' model.StudioID}}>Studio: {{studioName}}</a></td>
           </tr>
         </table>
         <div>
@@ -257,6 +257,12 @@
             <td>Gender: {{model.Gender}}</td>
           </tr>
         </table>
+        <div>
+          <h3>Movies:</h3>
+          {{#each movies}}
+            <p><a {{action 'goToMovie' this.MovieID}}>{{Title}}</a></p>
+          {{/each}}
+        <div>
       </div>
     </script>
 	
@@ -380,6 +386,11 @@
     </script>
 
     <script type="text/x-handlebars" id="components/studio-container">
+      <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
+      <p>Headquarter: {{model.Headquarter}}</p>
+    </script>
+
+    <script type="text/x-handlebars" id="components/comment-container">
       <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
       <p>Headquarter: {{model.Headquarter}}</p>
     </script>
