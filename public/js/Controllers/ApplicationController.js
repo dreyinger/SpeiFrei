@@ -1,10 +1,17 @@
 App.MainController = Ember.Controller.extend({
 	init: function () {
-		if (!getCookie("auth")) {
-			this.transitionToRoute('signin');
+		var auth = getCookie("auth"),
+				self = this;
+
+		if (auth) {
+			auth = JSON.parse(auth);
+			Ember.set(self, 'auth', auth);
+		}
+		else {
+			Ember.set(self, 'auth', undefined);
 		};
 	},
-	auth: JSON.parse(getCookie("auth")),
+	auth: undefined,
 	showDrop: false,
 	actions :   {
 		search: function () {

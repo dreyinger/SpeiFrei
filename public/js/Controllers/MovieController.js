@@ -47,15 +47,13 @@ App.MovieController = Ember.Controller.extend({
 			var self = this;
 			var data = Ember.get(this, 'model');
 			Ember.$.post('/api/v1/deleteMovie', data).done(function(data) {
-			data = JSON.parse(data);
-			if (data.deleted) {
-				Ember.set(self, 'deleted', 'You have deleted this Movie');
-//				console.log(data);
-			}
-			else {
-				Ember.set(self, 'deleted', 'Something went wrong');
-//				console.log(data);
-			}
+				data = JSON.parse(data);
+				if (data.deleted) {
+					Ember.set(self, 'deleted', 'You have deleted this Movie');
+				}
+				else {
+					Ember.set(self, 'deleted', 'Something went wrong');
+				}
 			});
 		},
 		goToActor: function (id) {
@@ -65,7 +63,9 @@ App.MovieController = Ember.Controller.extend({
 			this.transitionToRoute('/director/'+ id);
  		},
  		goToStudio: function (id) {
-			this.transitionToRoute('/studio/'+ id);
+ 			if (id) {
+				this.transitionToRoute('/studio/'+ id);
+			}
  		},
  		comment: function () {
  			var self 		= this,

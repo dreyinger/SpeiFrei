@@ -15,5 +15,11 @@ App.MoviesRoute = Ember.Route.extend ({
   	Ember.$.get("/api/v1/movies").done(function (data) {
   		controller.set('model', data);
   	});
+  },
+  afterModel: function () {
+    auth = getCookie('auth')
+    if (auth && auth.isAuth) {
+      this.transitionTo('signin');
+    }
   }
 });
