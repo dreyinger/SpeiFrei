@@ -1,5 +1,11 @@
 App.DirectorController = Ember.Controller.extend({
-		actions: {
+	modelObserver: function () {
+		var self = this;
+		Ember.$.get('/api/v1/moviesForDirector', {directorId: Ember.get(self, 'model.PersID')}).done(function (data) {
+			Ember.set(self, 'movies', data);
+		});
+	}.observes('model'),
+	actions: {
 		delete_director: function () {
 			var self = this;
 			var data = Ember.get(this, 'model');
@@ -15,6 +21,9 @@ App.DirectorController = Ember.Controller.extend({
 			}
 			});
 			
+		},
+		goToMovie: function (id) {
+			this.transitionToRoute('/movie/' + id);
 		}
 	}
 	

@@ -319,6 +319,12 @@
             <td>Gender: {{model.Gender}}</td>
           </tr>
         </table>
+        <div>
+          <h3>Movies:</h3>
+          {{#each movies}}
+            <p><a {{action 'goToMovie' this.MovieID}}>{{Title}}</a></p>
+          {{/each}}
+        <div>
       </div>
     </script>
 	

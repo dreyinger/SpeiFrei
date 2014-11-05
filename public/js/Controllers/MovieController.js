@@ -54,8 +54,8 @@ App.MovieController = Ember.Controller.extend({
 			});
 		
 		},
-		goToActor: function (data) {
-			this.transitionToRoute('/actor/' + data);
+		goToActor: function (id) {
+			this.transitionToRoute('/actor/' + id);
 		}
 	}
 });
