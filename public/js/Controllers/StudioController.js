@@ -1,5 +1,11 @@
 App.StudioController = Ember.Controller.extend({
-		actions: {
+	modelObserver: function () {
+		var self = this;
+		Ember.$.get('/api/v1/moviesForStudio', {studioId: Ember.get(self, 'model.StudioID')}).done(function (data) {
+			Ember.set(self, 'movies', data);
+		});
+	}.observes('model'),
+	actions: {
 		deleteStudio: function () {
 			var self = this;
 			var data = Ember.get(this, 'model');
@@ -18,6 +24,9 @@ App.StudioController = Ember.Controller.extend({
 		editStudio: function () {
 			var data = Ember.get(this, 'model');
 			this.transitionToRoute('/editStudio/' + data.StudioID);
+		},
+		goToMovie: function (id) {
+			this.transitionToRoute('/movie/' + id);
 		}
 	}
 	
