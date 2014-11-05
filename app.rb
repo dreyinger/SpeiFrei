@@ -246,7 +246,6 @@ end
 
 post '/api/v1/createMovie' do
 	data = params
-	puts data
 	
 	if params["title"].to_s != ""
 		if params["duration"]
@@ -1048,6 +1047,33 @@ get '/api/v1/accountSettings' do
 
 	results = client.query(sql)
 	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/query' do
+
+	sql = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='SpeiFrei' AND `TABLE_NAME`='#{params[:table]}';"
+
+	newSql = "SELECT * FROM #{params[:table]} WHERE "
+	counter = 0
+	rows = 0
+
+	results = client.query(sql)
+
+	rows = results.count
+
+	results.each do |row|
+		if rows > counter + 1
+			newSql = newSql + "#{row[:COLUMN_NAME]} LIKE '%#{params[:searchText]}%' OR "
+		else
+			newSql = newSql + "#{row[:COLUMN_NAME]} LIKE '%#{params[:searchText]}%'"
+		end
+		counter = counter + 1
+	end
+
+	result = client.query(newSql)
+	data = result.to_a
 
 	MultiJson.dump(data)
 end
