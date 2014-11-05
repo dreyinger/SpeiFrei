@@ -50,6 +50,15 @@ get '/api/v1/user' do
 	MultiJson.dump(data)
 end
 
+get '/api/v1/user/:email' do
+	sql = "select Firstname, Surname from USER WHERE Email = '#{params[:email]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
 get '/api/v1/movies' do
 	content_type :json
 
@@ -88,6 +97,17 @@ get '/api/v1/actorsForMovie' do
 	content_type :json
 
 	sql = "SELECT a.* FROM ACTSIN am, ACTOR a, MOVIE m WHERE m.MovieID = '#{params[:movieId]}' AND m.MovieID = am.M_MovieID AND am.A_PersID = a.PersID"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/commentsForMovie' do
+	content_type :json
+
+	sql = "SELECT * FROM COMMENT WHERE M_MovieID = '#{params[:movieId]}'"
 
 	results = client.query(sql)
 	data = results.to_a
@@ -827,6 +847,17 @@ post '/api/v1/rating' do
 	MultiJson.dump({:newRating => newRating})
 end
 
+post '/api/v1/addComment' do
+	sql = "INSERT INTO COMMENT (Text, M_MovieID, U_Email) VALUES ('#{params[:text]}', '#{params[:movieId]}', '#{params[:user]}')"
+
+	client.query(sql)
+end
+
+post '/api/v1/deleteComment' do
+	sql = "DELETE FROM COMMENT WHERE CommentId = #{params[:cId]}"
+
+	client.query(sql)
+end
 	
 # post '/api/v1/movie' do
 # 	data = params

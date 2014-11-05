@@ -21,6 +21,9 @@ App.MovieController = Ember.Controller.extend({
 		Ember.$.get('/api/v1/actorsForMovie', {movieId: Ember.get(self, 'model.MovieID')}).done(function (data) {
 			Ember.set(self, 'actors', data);
 		});
+		Ember.$.get('/api/v1/commentsForMovie', {movieId: Ember.get(self, 'model.MovieID')}).done(function (data) {
+			if (data.length > 1) Ember.set(self, 'comments', data);
+		});
 	}.observes('model'),
 	ratingObserver: function (obj, attr) {
 		var self = this;
@@ -62,6 +65,29 @@ App.MovieController = Ember.Controller.extend({
  		},
  		goToStudio: function (id) {
 			this.transitionToRoute('/studio/'+ id);
+ 		},
+ 		comment: function () {
+ 			var self 		= this,
+ 					cText 	= Ember.get(self, 'commentText'),
+ 					user 		= JSON.parse(getCookie('auth')).user,
+ 					movieId = Ember.get(self, 'model.MovieID'),
+ 					data 		= {movieId: movieId, text: cText, user: user};
+
+ 			Ember.$.post('/api/v1/addComment', data).done(function () {
+ 				Ember.$.get('/api/v1/commentsForMovie', {movieId: movieId}).done(function (data) {
+ 					Ember.set(self, 'comments', data);
+ 				});
+ 				Ember.set(self, 'commentText', undefined);
+ 			});
+ 		},
+ 		deleteComment: function (params) {
+ 			var self		= this,
+ 					movieId = Ember.get(self, 'model.MovieID');
+ 			Ember.$.post('/api/v1/deleteComment', {cId: params}).done(function (data) {
+ 				Ember.$.get('/api/v1/commentsForMovie', {movieId: movieId}).done(function (data) {
+ 					Ember.set(self, 'comments', data);
+ 				});
+ 			});
  		}
 	}
 });

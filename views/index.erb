@@ -61,6 +61,7 @@
     <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
     <script type="text/javascript" src="js/Components/ActorComponent.js"></script>
     <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
+    <script type="text/javascript" src="js/Components/CommentComponent.js"></script>
 	
   </head>
   <body>
@@ -73,6 +74,7 @@
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
             <div class="navbar_option" {{action 'directors'}}>Directors</div>
+            <div class="navbar_option" {{action 'users'}}>Users</div>
             <div class="navbar_option" {{action 'account'}}>
               Account
               {{#if showDrop}}
@@ -142,6 +144,21 @@
         <div class="rating">
           Please rate this movie: 
           {{view Ember.Select content=ratings value=selectedValue prompt="Choose a rating:" optionValuePath="content.value" optionLabelPath="content.label"}}
+        </div>
+        <div class="comments">
+          <h3>Comments:</h3>
+          {{#if comments}}
+            {{#each comments}}
+              {{comment-container action='deleteComment' model=this}}
+            {{/each}}
+          {{else}}
+            no comments
+          {{/if}}
+          <div class="new_comment">
+          <h3>Add comment:</h3>
+          <div>{{textarea class="comment_input" value=commentText type="textfield" placeholder="Enter a comment ..."}}</div>
+          <button {{action 'comment'}}>Place comment</button>
+          </div>
         </div>
       </div>
     </script>
@@ -391,8 +408,11 @@
     </script>
 
     <script type="text/x-handlebars" id="components/comment-container">
-      <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
-      <p>Headquarter: {{model.Headquarter}}</p>
+      <div class="comment_container">
+        <div class="comment_info">{{user}} {{date}} <a {{action 'deleteComment' model.CommentID}}>Delete</a></div>
+
+        {{model.Text}}
+      </div>
     </script>
   </body>
 </html>
