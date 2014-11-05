@@ -1045,9 +1045,9 @@ get '/api/v1/accountSettings' do
 	content_type :json
 	
 	sql = "select * from USER where Email = '#{eMail}'"
+
 	results = client.query(sql)
 	data = results.to_a
-	puts data
 
 	MultiJson.dump(data)
 end

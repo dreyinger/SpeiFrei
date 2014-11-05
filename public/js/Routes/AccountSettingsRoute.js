@@ -8,12 +8,12 @@ App.AccountSettingsRoute = Ember.Route.extend ({
 	setupController: function (controller) {
     myself = controller;
     controller.set('model', []);
-    this.pollForActors(controller);
+    this.pollForAccount(controller);
   },
-  pollForActors: function (controller) {
+  pollForAccount: function (controller) {
   	var self = this;
   	Ember.$.get("/api/v1/accountSettings").done(function (data) {
-  		controller.set('model', data);
+  		controller.set('model', data[0]);
   	});
   }
 });

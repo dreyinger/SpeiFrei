@@ -41,6 +41,7 @@
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
+    <script type="text/javascript" src="js/Controllers/AccountSettingsController.js"></script>
     <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
     <script type="text/javascript" src="js/Controllers/SignupController.js"></script>
     <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
@@ -233,8 +234,8 @@
     <script type="text/x-handlebars" data-template-name="accountSettings">
      <div class="content_head">
         <p>{{model.Email}}</p>
-		<a {{action 'editAccountSettings'}}>Edit</a>
-		<a {{action 'deleteAccount'}}>Delete</a>
+		    <a {{action 'editAccountSettings'}}>Edit</a>
+		    <a {{action 'deleteAccount'}}>Delete</a>
       </div>
       <div class="accountSettings_container">
         <table>
@@ -498,9 +499,7 @@
       <h3><a {{action 'goToUser'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
       <p>Birthdate: {{model.Birthdate}}</p>
       <p>Gender: {{model.Gender}}</p>
-	
-	<script type="text/x-handlebars" data-template-name="accountSettings-container">
-      <h3>test</h3>
+
     </script>
   </body>
 </html>
