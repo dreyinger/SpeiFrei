@@ -233,8 +233,8 @@
 	
     <script type="text/x-handlebars" data-template-name="accountSettings">
      <div class="content_head">
+	 	<h3>{{deleted}}</h3>
         <p>{{model.Email}}</p>
-		    <a {{action 'editAccountSettings'}}>Edit</a>
 		    <a {{action 'deleteAccount'}}>Delete</a>
       </div>
       <div class="accountSettings_container">

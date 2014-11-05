@@ -1078,6 +1078,18 @@ get '/api/v1/query' do
 	MultiJson.dump(data)
 end
 
+post  '/api/v1/deleteAccount' do
+	sql = "select Email from USER where Email = '#{params[:Email]}'"
+	results = client.query(sql)
+	if results.to_a.length > 0
+		sql = "delete from USER where Email = '#{params[:Email]}'"
+		results = client.query(sql)
+		return MultiJson.dump({:deleted => true})
+	else
+		return MultiJson.dump({:deleted => false})
+	end
+end
+
 post '/api/v1/editAccountSettings' do
 	sql = "select * from USER where Email = '#{params["Email"]}'"
 	results = client.query(sql)
