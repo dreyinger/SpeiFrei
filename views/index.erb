@@ -246,7 +246,25 @@
             <td>Gender: {{model.Gender}}</td>
           </tr>
         </table>
+		</div>
+		<div class="content_head">
+		      <h3>{{edited}}</h3>
+        <p>Edit the User</p>
+		{{input value=model.Firstname placeholder="Firstname"}}
+		{{input value=model.Surname placeholder="Surname"}}
+		{{input value=model.Birthdate placeholder="Birthdate"}}
+		{{input value=model.Gender placeholder="Gender"}}
+		<button {{action 'submitEditAccountSettings'}}>edit</button>
       </div>
+    </script>
+	
+    <script type="text/x-handlebars" data-template-name="editAccountSettings">
+      <div class="content_head">
+      <h1>{{edited}}</h1>
+        <p>Edit the User</p>
+		{{input value=model.Firstname placeholder="Firstname"}}
+		{{input value=model.Surname placeholder="Surname"}}
+		<button {{action 'submitEditAccountSettings'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="studios">

@@ -1052,6 +1052,74 @@ get '/api/v1/accountSettings' do
 	MultiJson.dump(data)
 end
 
+post '/api/v1/editAccountSettings' do
+	sql = "select * from USER where Email = '#{params["Email"]}'"
+	results = client.query(sql)
+	data = results.to_a[0]
+	if params["Firstname"] != data[:Firstname]
+		if (params["Firstname"].count " ") == 0 # no " " in Firstname
+			if (params["Firstname"] =~/[[:upper:]]/) == 0
+				sql = "update USER set Firstname = '#{params["Firstname"]}' where Email = '#{params["Email"]}'"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else
+				puts "firstName must start with upper case"
+				return MultiJson.dump({:edited => false})
+			end
+		else
+			puts "only one firstName"
+			return MultiJson.dump({:edited => false})
+		end
+	end
+	
+	if params["Surname"] != results.to_a[0][:Surname]
+		if (params["Surname"].count " ") == 0 # no " " in Firstname
+			if (params["Surname"] =~/[[:upper:]]/) == 0
+				sql = "update USER set Surname = '#{params["Surname"]}' where Email = '#{params["Email"]}'"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			else
+				puts "Surname must start with upper case"
+				return MultiJson.dump({:edited => false})
+			end
+		end
+	end
+	
+	if params["Birthdate"] != nil &&  params["Birthdate"] != ""
+		if params["Birthdate"]  != results.to_a[0][:Birthdate]
+			validBirthdate = true
+			if (params["Birthdate"] =~ /[[:digit:]]{4}\-[[:digit:]]{2}\-[[:digit:]]{2}/) != 0
+				year = params["Birthdate"][0,4].to_i
+				month = params["Birthdate"][5,2].to_i
+				day = params["Birthdate"][8,2].to_i
+				if year > Date.today.strftime("%Y").to_i
+					if month > 12
+						if day > 31	
+							puts "no valid day"
+							validBirthdate = false
+							return MultiJson.dump({:edited => false})
+						end
+						puts "no valid month"
+						validBirthdate = false
+						return MultiJson.dump({:edited => false})
+					end
+					puts "no valid year"
+					validBirthdate = false
+					return MultiJson.dump({:edited => false})
+				end
+				puts "no valid Birthdate pattern"
+				validBirthdate = false
+				return MultiJson.dump({:edited => false})
+			end
+			if validBirthdate
+				sql = "update DIRECTOR set Birthdate = '#{params["Birthdate"]}' where PersID = #{params["PersID"]}"
+				client.query(sql)
+				return MultiJson.dump({:edited => true})
+			end
+		end
+	end
+end
+
 # post '/api/v1/movie' do
 # 	data = params
 # 	puts data
