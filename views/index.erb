@@ -34,6 +34,8 @@
     <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/UsersRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/UserRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
@@ -54,12 +56,15 @@
     <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
     <script type="text/javascript" src="js/Controllers/EditStudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/UserController.js"></script>
+    <script type="text/javascript" src="js/Controllers/UsersController.js"></script>
 
 	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
     <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
     <script type="text/javascript" src="js/Components/ActorComponent.js"></script>
+    <script type="text/javascript" src="js/Components/UserComponent.js"></script>
     <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
     <script type="text/javascript" src="js/Components/CommentComponent.js"></script>
 	
@@ -69,8 +74,8 @@
       <div class="header">
         <div class="navbar">
           <div class="navbar_inner">
-            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button {{action 'search'}}>P</button></div>
-            <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
+            <div class="navbar_option" {{action 'search'}}>Search...</div>
+            <div class="navbar_option" {{action 'home'}}>Movies</div>
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
             <div class="navbar_option" {{action 'directors'}}>Directors</div>
@@ -247,6 +252,29 @@
         {{actor-container action="goToActor" model=this}}
       {{/each}}
     </script>
+
+    <script type="text/x-handlebars" data-template-name="users">
+      <div class="content_head">
+        <p>Users</p>
+      </div>
+      {{#each model}}
+        {{user-container action="goToUser" model=this}}
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="user">
+      <div class="content_head">
+        <p>{{model.Firstname}} {{model.Surname}}</p>
+      </div>
+      <div class="user_container">
+        <table>
+          <tr>
+            <td>Birthdate: {{model.Birthdate}}</td>
+            <td>Gender: {{model.Gender}}</td>
+          </tr>
+        </table>
+      </div>
+    </script>
 	
 	<script type="text/x-handlebars" data-template-name="createActor">
       <div class="content_head">
@@ -413,6 +441,12 @@
 
         {{model.Text}}
       </div>
+    </script>
+
+    <script type="text/x-handlebars" id="components/user-container">
+      <h3><a {{action 'goToUser'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
+      <p>Birthdate: {{model.Birthdate}}</p>
+      <p>Gender: {{model.Gender}}</p>
     </script>
   </body>
 </html>

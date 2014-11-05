@@ -51,7 +51,16 @@ get '/api/v1/user' do
 end
 
 get '/api/v1/user/:email' do
-	sql = "select Firstname, Surname from USER WHERE Email = '#{params[:email]}'"
+	sql = "select Firstname, Surname, Birthdate, Gender from USER WHERE Email = '#{params[:email]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/users' do
+	sql = "select * from USER"
 
 	results = client.query(sql)
 	data = results.to_a

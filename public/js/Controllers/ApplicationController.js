@@ -7,6 +7,9 @@ App.MainController = Ember.Controller.extend({
 	auth: JSON.parse(getCookie("auth")),
 	showDrop: false,
 	actions :   {
+		search: function () {
+			this.transitionToRoute('search');
+		},
 		home: function () {
 			this.transitionToRoute('movies');
 		},

@@ -5,6 +5,8 @@ App.Router.map(function () {
   this.resource('signup', {path: '/signup'});
   this.resource('studios', {path: '/studios'});
   this.resource('studio', {path: '/studio/:studio_id'});
+  this.resource('users', {path: '/users'});
+  this.resource('user', {path: '/user/:email'});
   this.resource('actors', {path: '/actors'});
   this.resource('actor', {path: '/actor/:persID'});
 	this.resource('directors', {path: '/directors'});

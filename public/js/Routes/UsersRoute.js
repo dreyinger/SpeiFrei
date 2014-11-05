@@ -8,12 +8,12 @@ App.UsersRoute = Ember.Route.extend ({
 	setupController: function (controller) {
     myself = controller;
     controller.set('model', []);
-    this.pollForActors(controller);
+    this.pollForUsers(controller);
   },
-  pollForActors: function (controller) {
+  pollForUsers: function (controller) {
   	var self = this;
   	Ember.$.get("/api/v1/users").done(function (data) {
-  		controller.set('model', data);
+  		controller.set('model', JSON.parse(data));
   	});
   }
 });
