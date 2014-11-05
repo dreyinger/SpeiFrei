@@ -1,12 +1,15 @@
 App.MainController = Ember.Controller.extend({
-	auth: getCookie("auth"),
 	init: function () {
 		if (!getCookie("auth")) {
 			this.transitionToRoute('signin');
 		};
 	},
+	auth: JSON.parse(getCookie("auth")),
 	showDrop: false,
 	actions :   {
+		search: function () {
+			this.transitionToRoute('search');
+		},
 		home: function () {
 			this.transitionToRoute('movies');
 		},
@@ -18,6 +21,9 @@ App.MainController = Ember.Controller.extend({
 		},
 		directors: function () {
 			this.transitionToRoute('directors');
+		},
+		users: function () {
+			this.transitionToRoute('users');
 		},
 		account: function () {
 			this.toggleProperty('showDrop');

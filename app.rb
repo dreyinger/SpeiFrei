@@ -5,13 +5,19 @@ require 'thin'
 require 'multi_json'
 
 # client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 eMail = "m.v@test.com"
+
 class Clients
 	def initialize()
     @clients = [Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')]
+		# @clientsLocal = [Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')]
 		@clientCount = 0
   end
 
@@ -30,7 +36,6 @@ class Clients
 end
 
 client = Clients.new
-#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
@@ -48,6 +53,24 @@ get '/api/v1/user' do
 	data = results.to_a
 
 	data.length == 1 ? data = {"auth" => true} : data = {"auth" => false}
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/user/:email' do
+	sql = "select Firstname, Surname, Birthdate, Gender from USER WHERE Email = '#{params[:email]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/users' do
+	sql = "select * from USER"
+
+	results = client.query(sql)
+	data = results.to_a
 
 	MultiJson.dump(data)
 end
@@ -86,6 +109,61 @@ get '/api/v1/actors' do
 	MultiJson.dump(data)
 end
 
+get '/api/v1/actorsForMovie' do
+	content_type :json
+
+	sql = "SELECT a.* FROM ACTSIN am, ACTOR a, MOVIE m WHERE m.MovieID = '#{params[:movieId]}' AND m.MovieID = am.M_MovieID AND am.A_PersID = a.PersID"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/commentsForMovie' do
+	content_type :json
+
+	sql = "SELECT * FROM COMMENT WHERE M_MovieID = '#{params[:movieId]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/moviesForDirector' do
+	content_type :json
+
+	sql = "SELECT Title, MovieID FROM MOVIE WHERE D_PersID = '#{params[:directorId]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/moviesForStudio' do
+	content_type :json
+
+	sql = "SELECT Title, MovieID FROM MOVIE WHERE StudioID = '#{params[:studioId]}'"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
+get '/api/v1/moviesForActor' do
+	content_type :json
+
+	sql = "SELECT m.Title, m.MovieID FROM ACTSIN am, ACTOR a, MOVIE m WHERE a.PersID = '#{params[:persId]}' AND a.PersID = am.A_PersID AND am.M_MovieID = m.MovieID"
+
+	results = client.query(sql)
+	data = results.to_a
+
+	MultiJson.dump(data)
+end
+
 get '/api/v1/directors' do
 	content_type :json
 
@@ -108,8 +186,6 @@ get '/api/v1/studio/:id' do
 end
 
 get '/api/v1/actor/:id' do
-
-	puts eMail
 	content_type :json
 	
 	sql = "select * from ACTOR where PersID = #{params[:id]}"
@@ -807,6 +883,32 @@ post '/api/v1/deleteStudio' do
 	else
 		return MultiJson.dump({:deleted => false})
 	end
+end
+
+post '/api/v1/rating' do
+	sql = "SELECT AvgRating, RatingCount FROM MOVIE WHERE MovieID = '#{params[:movieId]}'"
+	result = client.query(sql).to_a[0]
+	oldRating = result[:AvgRating] ? result[:AvgRating] : 0.0
+	ratingCount = result[:RatingCount] ? result[:RatingCount] : 0
+
+	newRating = ((oldRating * ratingCount + params[:rating].to_i)/(ratingCount += 1)).round(2)
+
+	sql = "UPDATE MOVIE SET AvgRating = #{newRating}, RatingCount = #{ratingCount} WHERE MovieId = #{params[:movieId]}"
+	client.query(sql)
+
+	MultiJson.dump({:newRating => newRating})
+end
+
+post '/api/v1/addComment' do
+	sql = "INSERT INTO COMMENT (Text, M_MovieID, U_Email) VALUES ('#{params[:text]}', '#{params[:movieId]}', '#{params[:user]}')"
+
+	client.query(sql)
+end
+
+post '/api/v1/deleteComment' do
+	sql = "DELETE FROM COMMENT WHERE CommentId = #{params[:cId]}"
+
+	client.query(sql)
 end
 
 post '/api/v1/editMovie' do

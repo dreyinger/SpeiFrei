@@ -5,6 +5,8 @@ App.Router.map(function () {
   this.resource('signup', {path: '/signup'});
   this.resource('studios', {path: '/studios'});
   this.resource('studio', {path: '/studio/:studio_id'});
+  this.resource('users', {path: '/users'});
+  this.resource('user', {path: '/user/:email'});
   this.resource('actors', {path: '/actors'});
   this.resource('actor', {path: '/actor/:persID'});
 	this.resource('directors', {path: '/directors'});
@@ -18,5 +20,6 @@ App.Router.map(function () {
 	this.resource('editActor', {path: '/editActor/:pers_id'});
 	this.resource('createStudio', {path: '/createStudio'});
 	this.resource('editStudio', {path: '/editStudio/:studio_id'});
+	this.resource('search', {path: '/search'});
 	this.resource('accountSettings', {path: '/accountSettings'});
 });

@@ -60,6 +60,10 @@ body {
 	}
 }
 
+a {
+	cursor: pointer;
+}
+
 // header
 
 .header {
@@ -86,6 +90,7 @@ body {
 				.container;
 
 				position: relative;
+				cursor: pointer;
 				height: 100%;
 				min-width: 120px;
 				-webkit-flex-grow: 1;
@@ -131,6 +136,11 @@ body {
 	}
 }
 
+.comment_input {
+	width: 200px;
+	height: 100px;
+}
+
 // pages
 
 .content_head {
@@ -158,15 +168,30 @@ body {
 }
 
 .director_container {
-	.component_container
+	display: -webkit-flex;
+	display: -moz-flex;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
 }
 
 .movie_container {
-	.component_container;
+	display: -webkit-flex;
+	display: -moz-flex;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
 
 	td:not(:last-child) {
 		border-right: 1px solid black;
 	}
 
 	border-bottom: 1px dashed #AABB22;
+}
+
+.comment_container {
+	margin: 5px;
+
+	.comment_info {
+		font-size: 12px;
+		color: #999;
+	}
 }

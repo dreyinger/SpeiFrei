@@ -18,66 +18,72 @@
     <script type="text/javascript" src="js/Routes/ApplicationRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SigninRoute.js"></script>
     <script type="text/javascript" src="js/Routes/SignupRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/StudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorsRoute.js"></script>
     <script type="text/javascript" src="js/Routes/MoviesRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorsRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/StudioRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/StudiosRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/MovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/DirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateStudioRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/ActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/CreateActorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditActorRoute.js"></script>
-    <script type="text/javascript" src="js/Routes/CreateMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditDirectorRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditMovieRoute.js"></script>
     <script type="text/javascript" src="js/Routes/EditStudioRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/UsersRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/UserRoute.js"></script>
+    <script type="text/javascript" src="js/Routes/SearchRoute.js"></script>
     <script type="text/javascript" src="js/Routes/AccountSettingsRoute.js"></script>
 
     <!-- Controllers -->
     <script type="text/javascript" src="js/Controllers/ApplicationController.js"></script>
     <script type="text/javascript" src="js/Controllers/SigninController.js"></script>
     <script type="text/javascript" src="js/Controllers/SignupController.js"></script>
-    <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
-    <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateStudioController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorsController.js"></script>
     <script type="text/javascript" src="js/Controllers/MoviesController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorsController.js"></script>
-    <script type="text/javascript" src="js/Controllers/CreateStudioController.js"></script>
-    <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateMovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
     <script type="text/javascript" src="js/Controllers/DirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/CreateDirectorController.js"></script>
     <script type="text/javascript" src="js/Controllers/EditDirectorController.js"></script>
-  	<script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
-  	<script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
+    <script type="text/javascript" src="js/Controllers/CreateActorController.js"></script>
+    <script type="text/javascript" src="js/Controllers/EditActorController.js"></script>
     <script type="text/javascript" src="js/Controllers/ActorController.js"></script>
-    <script type="text/javascript" src="js/Controllers/MovieController.js"></script>
+    <script type="text/javascript" src="js/Controllers/StudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/EditStudioController.js"></script>
+    <script type="text/javascript" src="js/Controllers/UserController.js"></script>
+    <script type="text/javascript" src="js/Controllers/UsersController.js"></script>
+    <script type="text/javascript" src="js/Controllers/SearchController.js"></script>
     <script type="text/javascript" src="js/Controllers/EditMovieController.js"></script>
-    <script type="text/javascript" src="js/Controllers/StudiosController.js"></script>
 
-	
     <!-- Components -->
     <script type="text/javascript" src="js/Components/MovieComponent.js"></script>  
     <script type="text/javascript" src="js/Components/DirectorComponent.js"></script>
     <script type="text/javascript" src="js/Components/ActorComponent.js"></script>
-    <script type="text/javascript" src="js/Components/MovieComponent.js"></script>
-	
+    <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
+    <script type="text/javascript" src="js/Components/UserComponent.js"></script>
+    <script type="text/javascript" src="js/Components/StudioComponent.js"></script>
+    <script type="text/javascript" src="js/Components/CommentComponent.js"></script>
+  
   </head>
   <body>
     <script type="text/x-handlebars" data-template-name="main">
       <div class="header">
         <div class="navbar">
           <div class="navbar_inner">
-            <div class="navbar_option">{{input value=search_text placeholder="Search..."}}<button {{action 'search'}}>P</button></div>
-            <div class="navbar_option" {{action 'home'}}><span class="icon_home"></span>Movies</div>
+            <div class="navbar_option" {{action 'search'}}>Search...</div>
+            <div class="navbar_option" {{action 'home'}}>Movies</div>
             <div class="navbar_option" {{action 'studios'}}>Studios</div>
             <div class="navbar_option" {{action 'actors'}}>Actors</div>
             <div class="navbar_option" {{action 'directors'}}>Directors</div>
+            <div class="navbar_option" {{action 'users'}}>Users</div>
             <div class="navbar_option" {{action 'account'}}>
               Account
               {{#if showDrop}}
@@ -97,14 +103,14 @@
           </div>
         </div>
       </div>
-      <div class="footer">
+      <!--<div class="footer">
         <div class="footer_inner">
           <div class="footer_option">Share</div>
           <div class="footer_option">Connect</div>
           <div class="footer_option">Sitemap</div>
           <div class="footer_option">Contact</div>
         </div>
-      </div>
+      </div>-->
     </script>
 
     <script type="text/x-handlebars" data-template-name="movies">
@@ -121,8 +127,8 @@
       <div class="content_head">
 	  	<h3>{{deleted}}</h3>
         <p>{{model.Title}}</p>
-		    <a {{action 'editMovie'}}>Edit</a>
-		    <a {{action 'delete_movie'}}>Delete</a>
+        <a {{action 'editMovie'}}>Edit</a>
+        <a {{action 'delete_movie'}}>Delete</a>
       </div>
       <div class="movie_container">
         <table>
@@ -133,20 +139,38 @@
             <td>Mood: {{model.Mood}}</td>
             <td>Releasedate: {{model.ReleaseDate}}</td>
             <td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>
-            <td><a{{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
-            <td>Movie: {{studioName}}</td>
+            <td><a {{action 'goToDirector' model.D_PersID}}>Director: {{directorName}}</a></td>
+            <td><a {{action 'goToStudio' model.StudioID}}>Studio: {{studioName}}</a></td>
           </tr>
         </table>
-        <select name="select">
-          <option value=1>1</option> 
-          <option value=2>2</option>
-          <option value=3>3</option>
-          <option value=4>4</option>
-          <option value=5>5</option>
-        </select>
+        <div>
+          <h3>Actors:</h3>
+          {{#each actors}}
+            <p><a {{action 'goToActor' this.PersID}}>Name: {{Firstname}} {{Surname}}</a></p>
+          {{/each}}
+        <div>
+        <hr>
+        <div class="rating">
+          Please rate this movie: 
+          {{view Ember.Select content=ratings value=selectedValue prompt="Choose a rating:" optionValuePath="content.value" optionLabelPath="content.label"}}
+        </div>
+        <div class="comments">
+          <h3>Comments:</h3>
+          {{#if comments}}
+            {{#each comments}}
+              {{comment-container action='deleteComment' model=this}}
+            {{/each}}
+          {{else}}
+            no comments
+          {{/if}}
+          <div class="new_comment">
+          <h3>Add comment:</h3>
+          <div>{{textarea class="comment_input" value=commentText type="textfield" placeholder="Enter a comment ..."}}</div>
+          <button {{action 'comment'}}>Place comment</button>
+          </div>
+        </div>
       </div>
     </script>
-	
 
     <script type="text/x-handlebars" data-template-name="createMovie">
       <div class="content_head">
@@ -185,7 +209,7 @@
         <p>Please Sign in</p>
         <p class="message error">{{message}}</p>
         {{input value=email placeholder="Email"}}
-        {{input value=password placeholder="Password"}}
+        {{input value=password type='password' placeholder="Password"}}
         <button {{action 'postSignin'}}>signin</button>
         <div><a href="#" {{action 'signup'}}>Signup</a></div>
       </div>
@@ -196,7 +220,7 @@
         <p>Signup in</p>
         <p class="message error">{{message}}</p>
         {{input value=params.email placeholder="Email"}}
-        {{input value=params.password placeholder="Password"}}
+        {{input value=params.password type='password' placeholder="Password"}}
         {{input value=params.firstname placeholder="Firstname"}}
         {{input value=params.surname placeholder="Surname"}}
         {{input value=params.gender placeholder="Gender (m/f)"}}
@@ -227,19 +251,19 @@
     <script type="text/x-handlebars" data-template-name="studios">
       <div class="content_head">
         <p>Studios</p>
-		<a {{action 'createStudio'}}>Add</a>
+    <a {{action 'createStudio'}}>Add</a>
       </div>
       {{#each model}}
         {{studio-container action='goToStudio' model=this}}
       {{/each}}
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="studio">
+  
+  <script type="text/x-handlebars" data-template-name="studio">
       <div class="content_head">
 	  	<h3>{{deleted}}</h3>
         <p>{{model.Name}}</p>
-		<a {{action 'editStudio'}}>Edit</a>
-		<a {{action 'deleteStudio'}}>Delete</a>
+    <a {{action 'editStudio'}}>Edit</a>
+    <a {{action 'deleteStudio'}}>Delete</a>
       </div>
       <div class="studio_container">
         <table>
@@ -247,39 +271,56 @@
             <td>Headquarter: {{model.Headquarter}}</td>
           </tr>
         </table>
+        <div>
+          <h3>Movies:</h3>
+          {{#each movies}}
+            <p><a {{action 'goToMovie' this.MovieID}}>{{Title}}</a></p>
+          {{/each}}
+        <div>
       </div>
+    </script>
+  
+  <script type="text/x-handlebars" data-template-name="createStudio">
+      <div class="content_head">
+        <p>Create a Studio</p>
+    {{input value=model.name placeholder="Name"}}
+    {{input value=model.headquarter placeholder="Headquarter"}}
+    <button {{action 'submit_studio'}}>submit</button>
+    </script>
+  
+  <script type="text/x-handlebars" data-template-name="editStudio">
+      <div class="content_head">
+      <h1>{{edited}}</h1>
+        <p>Edit the Studio</p>
+    {{input value=model.newName placeholder="Name"}}
+    {{input value=model.newHeadquarter placeholder="Headquarter"}}
+    <button {{action 'submitEditStudio'}}>edit</button>
     </script>
 
     <script type="text/x-handlebars" data-template-name="actors">
       <div class="content_head">
         <p>Actors</p>
-		<a {{action 'createActor'}}>Add</a>
+    <a {{action 'createActor'}}>Add</a>
       </div>
       {{#each model}}
         {{actor-container action="goToActor" model=this}}
       {{/each}}
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="createActor">
+
+    <script type="text/x-handlebars" data-template-name="users">
       <div class="content_head">
-        <p>Create Actor</p>
-        {{input value=model.firstName placeholder="Firstname"}}
-        {{input value=model.surName placeholder="Surname"}}
-		{{input value=model.placeOfBirth placeholder="Place of Birth"}}
-		{{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
-		{{input value=model.gender placeholder="Gender - m/w"}}
-        <button {{action 'submit_actor'}}>submit</button>
+        <p>Users</p>
       </div>
+      {{#each model}}
+        {{user-container action="goToUser" model=this}}
+      {{/each}}
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="actor">
+
+    <script type="text/x-handlebars" data-template-name="user">
       <div class="content_head">
-	  	<h3>{{deleted}}</h3>
         <p>{{model.Firstname}} {{model.Surname}}</p>
-		<a {{action 'editActor'}}>Edit</a>
-		<a {{action 'delete_actor'}}>Delete</a>
       </div>
-      <div class="actor_container">
+      <div class="user_container">
         <table>
           <tr>
             <td>Birthdate: {{model.Birthdate}}</td>
@@ -288,8 +329,43 @@
         </table>
       </div>
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="editActor">
+  
+  <script type="text/x-handlebars" data-template-name="createActor">
+      <div class="content_head">
+        <p>Create Actor</p>
+        {{input value=model.firstName placeholder="Firstname"}}
+        {{input value=model.surName placeholder="Surname"}}
+    {{input value=model.placeOfBirth placeholder="Place of Birth"}}
+    {{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
+    {{input value=model.gender placeholder="Gender - m/w"}}
+        <button {{action 'submit_actor'}}>submit</button>
+      </div>
+    </script>
+  
+  <script type="text/x-handlebars" data-template-name="actor">
+      <div class="content_head">
+	  	<h3>{{deleted}}</h3>
+        <p>{{model.Firstname}} {{model.Surname}}</p>
+    <a {{action 'editActor'}}>Edit</a>
+    <a {{action 'delete_actor'}}>Delete</a>
+      </div>
+      <div class="actor_container">
+        <table>
+          <tr>
+            <td>Birthdate: {{model.Birthdate}}</td>
+            <td>Gender: {{model.Gender}}</td>
+          </tr>
+        </table>
+        <div>
+          <h3>Movies:</h3>
+          {{#each movies}}
+            <p><a {{action 'goToMovie' this.MovieID}}>{{Title}}</a></p>
+          {{/each}}
+        <div>
+      </div>
+    </script>
+  
+  <script type="text/x-handlebars" data-template-name="editActor">
       <div class="content_head">
 	  	<h3>{{edited}}</h3>
         <p>Edit Actor</p>
@@ -300,8 +376,8 @@
 		{{input value=model.newGender placeholder="new Gender"}}
 		<button {{action 'submitEditActor'}}>edit</button>
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="directors">
+  
+  <script type="text/x-handlebars" data-template-name="directors">
       <div class="content_head">
         <p>Directors</p>
 		<a {{action 'createDirector'}}>Add</a>
@@ -310,19 +386,19 @@
         {{director-container action='goToDirector' model=this}}
       {{/each}}
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="createDirector">
+  
+  <script type="text/x-handlebars" data-template-name="createDirector">
       <div class="content_head">
         <p>Create Director</p>
         {{input value=model.firstName placeholder="Firstname"}}
         {{input value=model.surName placeholder="Surname"}}
-		{{input value=model.placeOfBirth placeholder="Place of Birth"}}
-		{{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
-		{{input value=model.gender placeholder="Gender - m/w"}}
+    {{input value=model.placeOfBirth placeholder="Place of Birth"}}
+    {{input value=model.birthdate placeholder="Birthdate - YYYY-MM-DD"}}
+    {{input value=model.gender placeholder="Gender - m/w"}}
         <button {{action 'submit_director'}}>submit</button>
       </div>
     </script>
-	
+  
     <script type="text/x-handlebars" data-template-name="director">
       <div class="content_head">
 	  	<h3>{{deleted}}</h3>
@@ -338,34 +414,52 @@
             <td>Gender: {{model.Gender}}</td>
           </tr>
         </table>
+        <div>
+          <h3>Movies:</h3>
+          {{#each movies}}
+            <p><a {{action 'goToMovie' this.MovieID}}>{{Title}}</a></p>
+          {{/each}}
+        <div>
       </div>
     </script>
-	
-	<script type="text/x-handlebars" data-template-name="editDirector">
+  
+  <script type="text/x-handlebars" data-template-name="editDirector">
       <div class="content_head">
 	  <h3>{{edited}}</h3>
         <p>Edit Director</p>
         {{input value=model.newFirstName placeholder="new Firstname"}}
-		{{input value=model.newSurName placeholder="new Surname"}}
-		{{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
-		{{input value=model.newBirthdate placeholder="new Birthdate"}}
-		{{input value=model.newGender placeholder="new Gender"}}
-		<button {{action 'submitEditDirector'}}>edit</button>
+    	{{input value=model.newSurName placeholder="new Surname"}}
+	    {{input value=model.newPlaceOfBirth placeholder="new Place of Birth"}}
+    	{{input value=model.newBirthdate placeholder="new Birthdate"}}
+	    {{input value=model.newGender placeholder="new Gender"}}
+    	<button {{action 'edit_director'}}>edit</button>
     </script>
-	
+
+    <script type="text/x-handlebars" data-template-name="search">
+      <div class="content_head">
+        <p>Search</p>
+      <div>
+      {{view Ember.Select content=tables value=selectedTable optionValuePath="content.value" optionLabelPath="content.label"}}
+      {{input value=searchText placeholder="Searchtext ..."}}
+      <button {{action 'search'}}>Search</button>
+      {{#each results}}
+        test
+      {{/each}}
+    </script>
+  
     <script type="text/x-handlebars" id="components/movie-container">
       <h3><a {{action 'goToMovie'}}>{{model.Title}}</a></h3>
       <div class="movie_container">
         <table>
           <tr>
             <td>Duration: {{model.Duration}}</td>
-    		    <td>Agerating: {{model.AgeRating}}</td>
-        		<td>Genre: {{model.Genre}}</td>
-        		<td>Mood: {{model.Mood}}</td>
-        		<td>Releasedate: {{model.ReleaseDate}}</td>
-        		<!--<td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>-->
-        		<!--<td>Director: {{model.D_PersID}}</td>-->
-        		<!--<td>Studio: {{studioName}}</td>-->
+            <td>Agerating: {{model.AgeRating}}</td>
+            <td>Genre: {{model.Genre}}</td>
+            <td>Mood: {{model.Mood}}</td>
+            <td>Releasedate: {{model.ReleaseDate}}</td>
+            <!--<td>Rating: {{#if model.AvgRating}}{{model.AvgRating}}{{else}}not rated{{/if}}</td>-->
+            <!--<td>Director: {{model.D_PersID}}</td>-->
+            <!--<td>Studio: {{studioName}}</td>-->
           </tr>
         </table>
       </div>
@@ -374,23 +468,36 @@
     <script type="text/x-handlebars" id="components/actor-container">
       <h3><a {{action 'goToActor'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
       <p>Place of birth: {{model.PlaceOfBirth}}</p>
-  	  <p>Birthdate: {{model.Birthdate}}</p>
-  	  <p>Gender: {{model.Gender}}</p>
+      <p>Birthdate: {{model.Birthdate}}</p>
+      <p>Gender: {{model.Gender}}</p>
     </script>
-	
-	<script type="text/x-handlebars" id="components/director-container">
+  
+  <script type="text/x-handlebars" id="components/director-container">
     <h3><a {{action 'goToDirector'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
     <div class="director_container">
-		  <p>Place of birth: {{model.PlaceOfBirth}}</p>
-		  <p>Birthdate: {{model.Birthdate}}</p>
-		  <p>Gender: {{model.Gender}}</p>
-		</div>
+      <p>Place of birth: {{model.PlaceOfBirth}}</p>
+      <p>Birthdate: {{model.Birthdate}}</p>
+      <p>Gender: {{model.Gender}}</p>
+    </div>
     </script>
 
     <script type="text/x-handlebars" id="components/studio-container">
       <h3><a {{action 'goToStudio'}}>{{model.Name}}:</a></h3>
       <p>Headquarter: {{model.Headquarter}}</p>
     </script>
+
+    <script type="text/x-handlebars" id="components/comment-container">
+      <div class="comment_container">
+        <div class="comment_info">{{user}} {{date}} <a {{action 'deleteComment' model.CommentID}}>Delete</a></div>
+
+        {{model.Text}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="components/user-container">
+      <h3><a {{action 'goToUser'}}>{{model.Firstname}} {{model.Surname}}:</a></h3>
+      <p>Birthdate: {{model.Birthdate}}</p>
+      <p>Gender: {{model.Gender}}</p>
 	
 	<script type="text/x-handlebars" data-template-name="accountSettings-container">
       <h3>test</h3>

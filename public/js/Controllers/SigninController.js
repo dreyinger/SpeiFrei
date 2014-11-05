@@ -3,11 +3,11 @@ App.SigninController = Ember.Controller.extend({
 		postSignin: function () {
 			var self = this;
 			if (Ember.get(this, "email") && Ember.get(this, "password")) {
-				var data = {email: Ember.get(this, "email"), password: Ember.get(this, "password")};
+				var data = {email: Ember.get(self, "email"), password: Ember.get(self, "password")};
 				Ember.$.get( '/api/v1/user', data).done(function (d) {
 					d = JSON.parse(d);
 					if (d.auth) {
-						setCookie('auth', true, 1);
+						setCookie('auth', JSON.stringify({isAuth: true, user: Ember.get(self, 'email')}), 1);
 						Ember.set(self, 'email', undefined);
 						Ember.set(self, 'password', undefined);
 						Ember.set(self, 'message', undefined);
