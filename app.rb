@@ -5,6 +5,7 @@ require 'thin'
 require 'multi_json'
 
 # client = Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')
+#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 class Clients
 	def initialize()
@@ -12,6 +13,10 @@ class Clients
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei'),
 						 		Mysql2::Client.new(:host => 'delphi3.dhbw-stuttgart.de', :username => 'speifreier', :password => 'reyinger63', :database => 'SpeiFrei')]
+		# @clientsLocal = [Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei'),
+		# 								 Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')]
 		@clientCount = 0
   end
 
@@ -30,7 +35,6 @@ class Clients
 end
 
 client = Clients.new
-#client = Mysql2::Client.new(:host => 'localhost', :username => 'root', :database => 'SpeiFrei')
 
 #use thin as web server
 set :server, 'thin'
