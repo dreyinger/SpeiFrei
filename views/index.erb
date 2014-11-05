@@ -463,10 +463,10 @@
     <script type="text/x-handlebars" data-template-name="search">
       <div class="content_head">
         <p>Search</p>
-      <div>
-      {{view Ember.Select content=tables value=selectedTable optionValuePath="content.value" optionLabelPath="content.label"}}
-      {{input value=searchText placeholder="Searchtext ..."}}
-      <button {{action 'search'}}>Search</button>
+        {{view Ember.Select content=tables value=selectedTable optionValuePath="content.value" optionLabelPath="content.label"}}
+        {{input value=searchText placeholder="Searchtext ..."}}
+        <button {{action 'search'}}>Search</button>
+      </div>
       {{#if selectedTables.MOVIE}}
         {{#each results}}
           {{movie-container action="goToMovie" model=this}}
